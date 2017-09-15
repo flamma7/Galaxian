@@ -1,0 +1,9 @@
+#ignore following files
+
+*.*project
+.project
+*.settings/
+*.cmd
+*_ccs.c
+system_msp432p401r.c
+targetConfigs/
