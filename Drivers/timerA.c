@@ -7,15 +7,43 @@
 
 #include "msp.h"
 #include "Headers/timerA.h"
-#include <limits.h>                 // for SHRT_MAX = 32767
-#include <math.h>                   // modf()
 
-void initTimerA()
+
+/* Returns an open timerA */
+TIMER_A setTimerA(const TIMER_A_TIME time, const void(*handler)(void))
 {
-    timerAs_in_use = 0;
-    timerA0_counter = 0;
-    timerA1_counter = 0;
-    timerA2_counter = 0;
+    if(!(_timerAs_in_use & TIMERA_0))
+    {
+        _configTimerA0(time);
+        _timerA0_handler = handler;
+        _timerAs_in_use |= TIMERA_0;            // set timer status in use
+        return TIMERA_0;
+    }
+    else if(!(_timerAs_in_use & TIMERA_1))
+    {
+        _configTimerA1(time);
+        _timerA1_handler = handler;
+        _timerAs_in_use |= TIMERA_1;            // set timer status in use
+        return TIMERA_1;
+    }
+    else if(!(_timerAs_in_use & TIMERA_2))
+    {
+        _configTimerA2(time);
+        _timerA2_handler = handler;
+        _timerAs_in_use |= TIMERA_2;            // set timer status in use
+        return TIMERA_2;
+    }
+    else if (!(_timerAs_in_use & TIMERA_3))
+    {
+        _configTimerA3(time);
+        _timerA3_handler = handler;
+        _timerAs_in_use |= TIMERA_3;            // set timer status in use
+        return TIMERA_3;
+    }
+    else
+    {
+        return TIMERA_ERROR;
+    }
 }
 
 // a better interface would take the responsibility of managing which timers are in use out of the user's hands
@@ -128,18 +156,6 @@ void _configTimer_AID(TIMER_A timerA, uint8_t id)
         break;
     }
 }
-
-void _configTimerA_TAIDEX(TIMER_A timerA, uint8_t taidex)
-{
-
-}
-
-#ifdef CALC_TIMER_CONFIG_FAST
-TIMER_A_CALC _calculateTimerConfigFast(TIMER_A_CLK * clk, uint8_t * prescl_1, uint8_t * prescl_2, uint16_t * count, uint16_t milli_time)
-{
-
-}
-#endif
 
 
 // TODO extend function capability to return error

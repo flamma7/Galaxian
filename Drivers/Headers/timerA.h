@@ -14,16 +14,18 @@
 #include <stdint.h>
 
 /* global function ptr's for intrpts */
-void (*_timerA0_handler)(void);
-void (*_timerA1_handler)(void);
-void (*_timerA2_handler)(void);
+static void (*_timerA0_handler)(void);
+static void (*_timerA1_handler)(void);
+static void (*_timerA2_handler)(void);
+static void (*_timerA3_handler)(void);
 
 /* global timerA counts */
-uint16_t _timerA0_counter;
-uint16_t _timerA1_counter;
-uint16_t _timerA2_counter;
+static uint16_t _timerA0_counter = 0;
+static uint16_t _timerA1_counter = 0;
+static uint16_t _timerA2_counter = 0;
+static uint16_t _timerA3_counter = 0;
 
-uint8_t _timerAs_in_use;
+static uint8_t _timerAs_in_use = 0;
 
 typedef enum TIMER_A_t{
     TIMERA_0 = 0b1,
@@ -46,9 +48,19 @@ typedef enum TIMER_A_TIME_t{
 }TIMER_A_TIME;
 
 
-/* Returns an open timerA */
-TIMER_A setTimerA(TIMER_A_TIME time, void(*handler)(void));
+/* Returns an open timerA, given a time and a callback */
+TIMER_A setTimerA(const TIMER_A_TIME time, const void(*handler)(void));
 /* Start selected timerA */
-TIMER_A_START startTimerA(TIMER_A timerA);
+TIMER_A_START startTimerA(const TIMER_A timerA);
+
+/* TimerA interrupt handler */
+void TimerAHandler(void);
+
+/* Non-user functions, configure the selected timer for the time */
+static void _configTimerA0(const TIMER_A_TIME time);
+static void _configTimerA1(const TIMER_A_TIME time);
+static void _configTimerA2(const TIMER_A_TIME time);
+static void _configTimerA3(const TIMER_A_TIME time);
+
 
 #endif /* DRIVERS_HEADERS_TIMERA_H_ */
