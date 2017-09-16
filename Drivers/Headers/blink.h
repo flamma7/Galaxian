@@ -37,9 +37,9 @@ void blinkPushLED1(BUTTON but);
 void blinkCycle(BUTTON but);
 
 /* Configures led pin(s) as output(s) set to low */
-void _configLED(LED led);
+static void _configLED(LED led);
 
-/* Toggles the LED */
+/* Toggles LED P1.0 */
 void toggleLED1();
 
 #endif /* DRIVERS_HEADERS_BLINK_H_ */

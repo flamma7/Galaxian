@@ -13,18 +13,18 @@
 #include "Headers/button.h"
 #include "Headers/timerA.h"
 
-void blinkRate(LED led, COLOR col, uint16_t milli_period)
-{
-    if(led == LED1)                     // always color red
-    {
-        _configLED(LED1);
-        configTimerA(TIMERA_0, milli_period, &toggleLED1);
-    }
-    else
-    {
-
-    }
-}
+//void blinkRate(LED led, COLOR col, uint16_t milli_period)
+//{
+//    if(led == LED1)                     // always color red
+//    {
+//        _configLED(LED1);
+//        configTimerA(TIMERA_0, milli_period, &toggleLED1);
+//    }
+//    else
+//    {
+//
+//    }
+//}
 
 void blinkPushLED1(BUTTON but)
 {
@@ -34,7 +34,7 @@ void blinkPushLED1(BUTTON but)
 }
 
 
-void _configLED(LED led)
+static void _configLED(LED led)
 {
     switch(led)
     {

@@ -3,13 +3,16 @@
 
 /**
  * main.c
+ *
+ * Author: luke
  */
+
+#include "Unit_Test/Headers/blink_test.h"
+
 void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
-    blinkRate(LED1, RED, 1000);
-//    blinkPushLED1(BUTTON_S1);
-    blinkLED
+
     while(1)
     {
         ;

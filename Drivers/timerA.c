@@ -46,6 +46,14 @@ TIMER_A setTimerA(const TIMER_A_TIME time, const void(*handler)(void))
     }
 }
 
+
+static void _configTimerA0(const TIMER_A_TIME time)
+{
+
+}
+
+#ifdef 0
+
 // a better interface would take the responsibility of managing which timers are in use out of the user's hands
 TIMER_A_CONFIG configTimerA(TIMER_A timerA, uint16_t milli_time, void(*handler)(void))
 {
@@ -62,9 +70,7 @@ TIMER_A_CONFIG configTimerA(TIMER_A timerA, uint16_t milli_time, void(*handler)(
             timerAs_in_use |= TIMERA_0;
 
         TA0CTL |= TACLR;                    // reset
-#ifdef CALC_TIMER_CONFIG_FAST
         // calculateTimerConfigFast()
-#elif CALC_TIMER_CONFIG_ONE_S
         TA0EX0 |= TAIDEX_0;
         TA0CTL |= TASSEL_1;
         TA0CTL |= ID_0;
@@ -76,13 +82,11 @@ TIMER_A_CONFIG configTimerA(TIMER_A timerA, uint16_t milli_time, void(*handler)(
         TA0CCTL0 &= ~CAP;
         // interrupt here?
         TA0CCR0 |= 0xffff
-#else
         // calculateTimerConfig()
         TIMER_A_CLK clk = TIMER_A_CLK_ACLK;
         uint8_t prescl_1 = 1;
         uint8_t prescl_2 = 1;
         uint16_t count = 32767;
-#endif
 
         break;
     case TIMERA_1:
@@ -217,47 +221,50 @@ TIMER_A_CALC _calculateTimerConfig(TIMER_A_CLK * clk, uint8_t * prescl_1, uint8_
 }
 #endif
 
-TIMER_A_START startTimerA(TIMER_A timerA)
-{
-    switch(timerA)
-    {
-    case TIMERA_0:
-        if (!(timerAs_in_use & TIMERA_0))       // check if not configured
-            return TIMER_A_START_ERR_NO_CONFIG;
-        TA0R |= timerA0_counter;
-        break;
-    case TIMERA_1:
-        if (!(timerAs_in_use & TIMERA_1))
-            return TIMER_A_START_ERR_NO_CONFIG;
-        TA1R |= timerA1_counter;
-        break;
-    case TIMERA_2:
-        if (!(timerAs_in_use & TIMERA_2))
-            return TIMER_A_START_ERR_NO_CONFIG;
-        TA2R |= timerA2_counter;
-        break;
-    default:
-        return TIMER_A_START_ERR_BAD_INPUT;
-    }
-    return TIMER_A_START_NO_ERROR;
-}
 
-void TimerAHandler(void)
-{
-    if(TA0CTL & TAIFG)
-    {
-        (*timerA0_handler)();
-        TA0CTL &= ~TAIFG;
-    }
-    else if (TA1CTL & TAIFG)
-    {
-        (*timerA1_handler)();
-        TA1CTL &= ~TAIFG;
-    }
-    else
-    {
-        (*timerA2_handler)();
-        TA2CTL &= ~TAIFG;
-    }
+#endif
 
-}
+//TIMER_A_START startTimerA(TIMER_A timerA)
+//{
+//    switch(timerA)
+//    {
+//    case TIMERA_0:
+//        if (!(timerAs_in_use & TIMERA_0))       // check if not configured
+//            return TIMER_A_START_ERR_NO_CONFIG;
+//        TA0R |= timerA0_counter;
+//        break;
+//    case TIMERA_1:
+//        if (!(timerAs_in_use & TIMERA_1))
+//            return TIMER_A_START_ERR_NO_CONFIG;
+//        TA1R |= timerA1_counter;
+//        break;
+//    case TIMERA_2:
+//        if (!(timerAs_in_use & TIMERA_2))
+//            return TIMER_A_START_ERR_NO_CONFIG;
+//        TA2R |= timerA2_counter;
+//        break;
+//    default:
+//        return TIMER_A_START_ERR_BAD_INPUT;
+//    }
+//    return TIMER_A_START_NO_ERROR;
+//}
+
+//void TimerAHandler(void)
+//{
+//    if(TA0CTL & TAIFG)
+//    {
+//        (*timerA0_handler)();
+//        TA0CTL &= ~TAIFG;
+//    }
+//    else if (TA1CTL & TAIFG)
+//    {
+//        (*timerA1_handler)();
+//        TA1CTL &= ~TAIFG;
+//    }
+//    else
+//    {
+//        (*timerA2_handler)();
+//        TA2CTL &= ~TAIFG;
+//    }
+//
+//}
