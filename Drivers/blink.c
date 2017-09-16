@@ -28,7 +28,7 @@
 
 void blinkPushLED1(BUTTON but)
 {
-    _configLED(LED1_LED2);
+    _configLED(LED1);
     P1OUT |= BIT0;              // led on
     configButton(but, &toggleLED1);
 }

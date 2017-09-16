@@ -6,8 +6,14 @@
  */
 #include "../Drivers/Headers/timerA.h"
 #include "../Drivers/Headers/blink.h"
+#include "../Drivers/Headers/button.h"
 
 void testTimerA()
 {
+    ;
+}
 
+void testBlink()
+{
+    blinkPushLED1(BUTTON_S1);
 }
