@@ -24,7 +24,7 @@ typedef enum COLOR_t{
     BLUE
 }COLOR;
 
-TIMER_A blinkRateTimerA = 0;
+static TIMER_A blinkRateTimerA = 0;
 
 /* Sets the color of LED2 (0-7) (LED1 only has color RED) */
 //void setColorLED2(COLOR col);

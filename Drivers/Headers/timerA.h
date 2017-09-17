@@ -49,7 +49,7 @@ typedef enum TIMER_A_TIME_t{
 
 
 /* Returns an open timerA, given a time and a callback */
-TIMER_A setTimerA(const TIMER_A_TIME time, const void(*handler)(void));
+TIMER_A setTimerA(const TIMER_A_TIME time, void(*handler)(void));
 /* Start selected timerA */
 TIMER_A_START startTimerA(const TIMER_A timerA);
 
