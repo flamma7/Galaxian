@@ -54,7 +54,10 @@ TIMER_A setTimerA(const TIMER_A_TIME time, const void(*handler)(void));
 TIMER_A_START startTimerA(const TIMER_A timerA);
 
 /* TimerA interrupt handler */
-void TimerAHandler(void);
+void TimerA0Handler(void);
+void TimerA1Handler(void);
+void TimerA2Handler(void);
+void TimerA3Handler(void);
 
 /* Non-user functions, configure the selected timer for the time */
 static void _configTimerA0(const TIMER_A_TIME time);

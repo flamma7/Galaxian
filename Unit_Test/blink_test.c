@@ -10,7 +10,7 @@
 
 void testTimerA()
 {
-    ;
+    blinkRateLED1(ONE_S);
 }
 
 void testBlink()

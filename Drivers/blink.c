@@ -13,18 +13,11 @@
 #include "Headers/button.h"
 #include "Headers/timerA.h"
 
-//void blinkRate(LED led, COLOR col, uint16_t milli_period)
-//{
-//    if(led == LED1)                     // always color red
-//    {
-//        _configLED(LED1);
-//        configTimerA(TIMERA_0, milli_period, &toggleLED1);
-//    }
-//    else
-//    {
-//
-//    }
-//}
+void blinkRateLED1(TIMER_A_TIME time)
+{
+    _configLED(LED1);
+    setTimerA(time, &toggleRateLED1);
+}
 
 void blinkPushLED1(BUTTON but)
 {
@@ -65,7 +58,29 @@ static void _configLED(LED led)
     }
 }
 
+void toggleRateLED1()
+{
+    P1OUT ^= BIT0;
+    startTimerA(_blinkRateTimerA);
+}
+
 void toggleLED1()
 {
     P1OUT ^= BIT0;
 }
+
+//#define multiply(x,y)   (x)*(y)
+//
+//
+//inline double multiply(double num1, double num2)
+//{
+//    return num1 * num2;
+//}__attribute__((always_inline))
+//
+//struct myStuct{
+//    char one;
+//    uint32_t two;
+//    uint16_t three;
+//}__attribute__((aligned(8)));
+//__attribute__((packed));
+// align bytes in struct for speed
