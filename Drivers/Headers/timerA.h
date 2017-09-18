@@ -4,8 +4,8 @@
  *  Created on: Sep 15, 2017
  *      Author: luke
  *  INSTRUCTIONS:
- *      1) Call setTimerA() with parameters to configure and receive a timerA number (0-3)
- *      2) Call startTimerA() passing the timerA number to start timing
+ *      1) Call setTimerA() with time and callback to receive an open timerA number (TIMERA_x 0-3)
+ *      2) Call startTimerA() passing the TIMERA_x number to start timing
  */
 
 #ifndef DRIVERS_HEADERS_TIMERA_H_

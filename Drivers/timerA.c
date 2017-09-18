@@ -120,3 +120,27 @@ void TimerA0Handler(void)
     TA0R = 0x0;
     (*_timerA0_handler)();
 }
+
+void TimerA1Handler(void)
+{
+    TA1CTL &= ~TAIFG;
+    TA1CCTL0 &= ~CCIFG;
+    TA1R = 0x0;
+    (*_timerA1_handler)();
+}
+
+void TimerA2Handler(void)
+{
+    TA2CTL &= ~TAIFG;
+    TA2CCTL0 &= ~CCIFG;
+    TA2R = 0x0;
+    (*_timerA2_handler)();
+}
+
+void TimerA3Handler(void)
+{
+    TA3CTL &= ~TAIFG;
+    TA3CCTL0 &= ~CCIFG;
+    TA3R = 0x0;
+    (*_timerA3_handler)();
+}
