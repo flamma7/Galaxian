@@ -6,6 +6,7 @@
  *  INSTRUCTIONS:
  *      1) Call setTimerA() with time and callback to receive an open timerA number (TIMERA_x 0-3)
  *      2) Call startTimerA() passing the TIMERA_x number to start timing
+ *          To restart timing, return a non zero uint8_t through user's callback
  */
 
 #ifndef DRIVERS_HEADERS_TIMERA_H_
@@ -14,10 +15,10 @@
 #include <stdint.h>
 
 /* global function ptr's for intrpts */
-static void (*_timerA0_handler)(void);
-static void (*_timerA1_handler)(void);
-static void (*_timerA2_handler)(void);
-static void (*_timerA3_handler)(void);
+static uint8_t (*_timerA0_handler)(void);
+static uint8_t (*_timerA1_handler)(void);
+static uint8_t (*_timerA2_handler)(void);
+static uint8_t (*_timerA3_handler)(void);
 
 /* global timerA counts */
 static uint16_t _timerA0_counter = 0;
@@ -49,7 +50,7 @@ typedef enum TIMER_A_TIME_t{
 
 
 /* Returns an open timerA, given a time and a callback */
-TIMER_A setTimerA(const TIMER_A_TIME time, void(*handler)(void));
+TIMER_A setTimerA(const TIMER_A_TIME time, uint8_t(*handler)(void));
 /* Start selected timerA */
 TIMER_A_START startTimerA(const TIMER_A timerA);
 

@@ -60,10 +60,10 @@ static void _configLED(LED led)
     }
 }
 
-void toggleRateLED1()
+uint8_t toggleRateLED1()
 {
     P1OUT ^= BIT0;
-    startTimerA((TIMER_A) blinkRateTimerA);
+    return 1;
 }
 
 void toggleLED1()

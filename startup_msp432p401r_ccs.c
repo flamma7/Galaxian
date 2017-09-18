@@ -38,6 +38,9 @@
 
 extern void Port1Handler(void);
 extern void TimerA0Handler(void);
+extern void TimerA1Handler(void);
+extern void TimerA2Handler(void);
+extern void TimerA3Handler(void);
 
 /* Linker variable that marks the top of the stack. */
 extern unsigned long __STACK_END;
@@ -141,11 +144,11 @@ void (* const interruptVectors[])(void) =
     COMP_E1_IRQHandler,                    /* COMP_E1 Interrupt         */
     TimerA0Handler,                      /* TA0_0 Interrupt           */
     TA0_N_IRQHandler,                      /* TA0_N Interrupt           */
-    TA1_0_IRQHandler,                      /* TA1_0 Interrupt           */
+    TimerA1Handler,                      /* TA1_0 Interrupt           */
     TA1_N_IRQHandler,                      /* TA1_N Interrupt           */
-    TA2_0_IRQHandler,                      /* TA2_0 Interrupt           */
+    TimerA2Handler,                      /* TA2_0 Interrupt           */
     TA2_N_IRQHandler,                      /* TA2_N Interrupt           */
-    TA3_0_IRQHandler,                      /* TA3_0 Interrupt           */
+    TimerA3Handler,                      /* TA3_0 Interrupt           */
     TA3_N_IRQHandler,                      /* TA3_N Interrupt           */
     EUSCIA0_IRQHandler,                    /* EUSCIA0 Interrupt         */
     EUSCIA1_IRQHandler,                    /* EUSCIA1 Interrupt         */

@@ -44,7 +44,7 @@ void blinkPushLED1(BUTTON but);
 static void _configLED(LED led);
 
 /* Toggles LED P1.0 and restarts timerA intrpt */
-void toggleRateLED1();
+uint8_t toggleRateLED1();
 
 /* Toggles LED P1.0 */
 void toggleLED1();

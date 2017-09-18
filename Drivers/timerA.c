@@ -10,7 +10,7 @@
 
 
 /* Returns an open timerA */
-TIMER_A setTimerA(const TIMER_A_TIME time, void(*handler)(void))
+TIMER_A setTimerA(const TIMER_A_TIME time, uint8_t(*handler)(void))
 {
     if(!(_timerAs_in_use & TIMERA_0))
     {
@@ -58,7 +58,6 @@ static void _configTimerA0(const TIMER_A_TIME time)
            TA0CTL &= ~ID_0;
            TA0CTL |= MC_1;
            TA0CTL |= TAIE;
-//           TA0CCTL0 &= ~CAP;
            TA0EX0 &= ~TAIDEX_0;
            _timerA0_counter = 0x7FFF;
            TA0CCTL0 = TIMER_A_CCTLN_CCIE;
@@ -113,12 +112,18 @@ TIMER_A_START startTimerA(TIMER_A timerA)
     return TIMER_A_START_NO_ERROR;
 }
 
+// TODO possible bug when resetting the timer TA3R = 0x0
+// Make a protocol to only restart the timer when start timer
+// function is called, or have it return a value to keep repeat
+
 void TimerA0Handler(void)
 {
     TA0CTL &= ~TAIFG;
     TA0CCTL0 &= ~CCIFG;
-    TA0R = 0x0;
-    (*_timerA0_handler)();
+    if((*_timerA0_handler)())
+        TA0R = 0;
+    else
+        TA0CCR0 = 0;
 }
 
 void TimerA1Handler(void)
@@ -126,7 +131,10 @@ void TimerA1Handler(void)
     TA1CTL &= ~TAIFG;
     TA1CCTL0 &= ~CCIFG;
     TA1R = 0x0;
-    (*_timerA1_handler)();
+    if((*_timerA1_handler)())
+        TA1R = 0;
+    else
+        TA1CCR0 = 0;
 }
 
 void TimerA2Handler(void)
@@ -134,7 +142,10 @@ void TimerA2Handler(void)
     TA2CTL &= ~TAIFG;
     TA2CCTL0 &= ~CCIFG;
     TA2R = 0x0;
-    (*_timerA2_handler)();
+    if((*_timerA2_handler)())
+        TA2R = 0;
+    else
+        TA2CCR0 = 0;
 }
 
 void TimerA3Handler(void)
@@ -142,5 +153,8 @@ void TimerA3Handler(void)
     TA3CTL &= ~TAIFG;
     TA3CCTL0 &= ~CCIFG;
     TA3R = 0x0;
-    (*_timerA3_handler)();
+    if((*_timerA3_handler)())
+        TA3R = 0;
+    else
+        TA3CCR0 = 0;
 }
