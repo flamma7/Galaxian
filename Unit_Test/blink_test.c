@@ -16,5 +16,5 @@ void testBlink()
 
 void testTimerA()
 {
-    blinkRateLED1(ONE_S);
+    blinkRateLED1(HALF_S);
 }

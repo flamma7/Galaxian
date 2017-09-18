@@ -63,6 +63,17 @@ static void _configTimerA0(const TIMER_A_TIME time)
            TA0CCTL0 = TIMER_A_CCTLN_CCIE;
            NVIC_EnableIRQ(TA0_0_IRQn);
         break;
+    case HALF_S:
+        TA0CTL |= TACLR;
+       TA0CTL &= ~TAIFG;
+       TA0CTL |= TASSEL_1;
+       TA0CTL &= ~ID_0;
+       TA0CTL |= MC_1;
+       TA0CTL |= TAIE;
+       TA0EX0 &= ~TAIDEX_0;
+       _timerA0_counter = 0x3FFF;
+       TA0CCTL0 = TIMER_A_CCTLN_CCIE;
+       NVIC_EnableIRQ(TA0_0_IRQn);
     default:
         break;
     }
@@ -111,10 +122,6 @@ TIMER_A_START startTimerA(TIMER_A timerA)
     }
     return TIMER_A_START_NO_ERROR;
 }
-
-// TODO possible bug when resetting the timer TA3R = 0x0
-// Make a protocol to only restart the timer when start timer
-// function is called, or have it return a value to keep repeat
 
 void TimerA0Handler(void)
 {
