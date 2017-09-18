@@ -17,8 +17,8 @@ void blinkRateLED1(TIMER_A_TIME time)
 {
     _configLED(LED1);
     P1OUT |= BIT0;              // led on
-    setTimerA(time, &toggleRateLED1);
-    startTimerA(blinkRateTimerA);
+    blinkRateTimerA = setTimerA(time, &toggleRateLED1);
+    startTimerA( (TIMER_A) blinkRateTimerA);
 }
 
 void blinkPushLED1(BUTTON but)
@@ -63,7 +63,7 @@ static void _configLED(LED led)
 void toggleRateLED1()
 {
     P1OUT ^= BIT0;
-    startTimerA(blinkRateTimerA);
+    startTimerA((TIMER_A) blinkRateTimerA);
 }
 
 void toggleLED1()

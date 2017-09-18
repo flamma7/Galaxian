@@ -8,12 +8,13 @@
 #include "../Drivers/Headers/blink.h"
 #include "../Drivers/Headers/button.h"
 
-void testTimerA()
-{
-    blinkRateLED1(ONE_S);
-}
 
 void testBlink()
 {
     blinkPushLED1(BUTTON_S1);
+}
+
+void testTimerA()
+{
+    blinkRateLED1(ONE_S);
 }

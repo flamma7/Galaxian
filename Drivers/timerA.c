@@ -57,10 +57,12 @@ static void _configTimerA0(const TIMER_A_TIME time)
            TA0CTL |= TASSEL_1;
            TA0CTL &= ~ID_0;
            TA0CTL |= MC_1;
-           TA0CCTL0 &= ~CAP;
-
+           TA0CTL |= TAIE;
+//           TA0CCTL0 &= ~CAP;
            TA0EX0 &= ~TAIDEX_0;
-           _timerA0_counter = 0xFFFF;
+           _timerA0_counter = 0x7FFF;
+           TA0CCTL0 = TIMER_A_CCTLN_CCIE;
+           NVIC_EnableIRQ(TA0_0_IRQn);
         break;
     default:
         break;
@@ -113,6 +115,8 @@ TIMER_A_START startTimerA(TIMER_A timerA)
 
 void TimerA0Handler(void)
 {
-    (*_timerA0_handler)();
     TA0CTL &= ~TAIFG;
+    TA0CCTL0 &= ~CCIFG;
+    TA0R = 0x0;
+    (*_timerA0_handler)();
 }
