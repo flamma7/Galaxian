@@ -9,15 +9,11 @@
 #include "Headers/button.h"
 #include <stdio.h> // NULL
 
-void initButtons()
-{
-    buttons_in_use = 0;
-    button_s1_handler = NULL;
-    button_s2_handler = NULL;
-}
-
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
 {
+    if(handler == NULL)
+        return BUTTON_CONFIG_ERR_BAD_INPUT;
+
     switch(but)
     {
     case BUTTON_S1:
@@ -53,12 +49,20 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
     default:
         return BUTTON_CONFIG_ERR_BAD_INPUT;
     }
-    __enable_interrupt();
     return BUTTON_CONFIG_NO_ERROR;
 }
 
 void Port1Handler(void)
 {
-    (*button_s1_handler)();
-    P1IFG &= ~BIT1;
+    if(P1IFG & BIT1)
+    {
+        (*button_s1_handler)();
+        P1IFG &= ~BIT1;
+    }
+    else if (P1IFG & BIT4)
+    {
+        (*button_s2_handler)();
+        P1IFG &= ~BIT4;
+    }
+
 }

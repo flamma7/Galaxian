@@ -8,11 +8,11 @@
 #ifndef DRIVERS_HEADERS_BUTTON_H_
 #define DRIVERS_HEADERS_BUTTON_H_
 
-uint8_t buttons_in_use;     // determine if a timerA is already in use
+static uint8_t buttons_in_use = 0;     // determine if a timerA is already in use
 
 /* global function ptr's for intrpts */
-void (*button_s1_handler)(void);
-void (*button_s2_handler)(void);
+static void (*button_s1_handler)(void);
+static void (*button_s2_handler)(void);
 
 typedef enum BUTTON_t{
     BUTTON_S1,
@@ -25,9 +25,6 @@ typedef enum BUTTON_CONFIG_t{
     BUTTON_CONFIG_ERR_NO_INIT,
     BUTTON_CONFIG_ERR_BAD_INPUT
 }BUTTON_CONFIG;
-
-/* Initializes button module for use. Must be called before all other button functions */
-void initButtons(void);
 
 /* Configures button to trigger an interrupt and call inputed function */
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void));

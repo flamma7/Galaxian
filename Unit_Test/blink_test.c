@@ -11,7 +11,7 @@
 
 void testBlink()
 {
-    blinkPushLED1(BUTTON_S1);
+    blinkPushLED1(BUTTON_S2);
 }
 
 void testTimerA()
