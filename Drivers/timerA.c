@@ -214,12 +214,12 @@ TIMER_A_START startTimerA(TIMER_A timerA)
 
 void TimerA0Handler(void)
 {
-    TA0CTL &= ~TAIFG;
-    TA0CCTL0 &= ~CCIFG;
     if((*_timerA0_handler)())
         TA0R = 0;
     else
         TA0CCR0 = 0;
+    TA0CTL &= ~TAIFG;
+    TA0CCTL0 &= ~CCIFG;
 }
 
 void TimerA1Handler(void)

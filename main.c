@@ -13,9 +13,7 @@ void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
 	__enable_interrupt();
-//	testTimerA();
-//	testBlink();
-	testFastBlink();
+	Unit_Tester();
     while(1)
     {
         ;

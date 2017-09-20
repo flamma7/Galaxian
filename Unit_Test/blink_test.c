@@ -5,12 +5,34 @@
  *      Author: luke
  *      General file with a few unit tests related to timerA, buttons and leds
  */
+#include "Headers/blink_test.h"
 #include "../Drivers/Headers/timerA.h"
 #include "../Drivers/Headers/blink.h"
 #include "../Drivers/Headers/button.h"
 #include <stdint.h>
 
 uint16_t callbackCounter = 0;
+
+void Unit_Tester()
+{
+//  testTimerA();
+//  testBlink();
+//  testFastBlink();
+    singleBlink();
+//    multipleTimers();
+
+}
+
+uint8_t multipleTimersCallback()
+{
+    TIMER_A timer = setTimerA(ONE_MS, &multipleTimersCallback);
+    if(timer != TIMERA_ERROR)
+    {
+        toggleLED1();
+        startTimerA(timer);
+    }
+    return 0;
+}
 
 uint8_t fastBlinkCallback()
 {
@@ -20,6 +42,12 @@ uint8_t fastBlinkCallback()
         toggleLED1();
     }
     return 1;
+}
+
+uint8_t singleBlinkCallback()
+{
+    toggleLED1();
+    return ++callbackCounter % 2;
 }
 
 void testFastBlink()
@@ -38,4 +66,17 @@ void testBlink()
 void testTimerA()
 {
     blinkRateLED1(HALF_S);
+}
+
+void singleBlink()
+{
+    configLED(LED1);
+    TIMER_A timerA = setTimerA(ONE_S, &singleBlinkCallback);
+    startTimerA(timerA);
+}
+
+void multipleTimers()
+{
+    TIMER_A timer = setTimerA(ONE_S, &multipleTimersCallback);
+    startTimerA(timer);
 }
