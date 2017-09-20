@@ -15,7 +15,7 @@
 
 void blinkRateLED1(TIMER_A_TIME time)
 {
-    _configLED(LED1);
+    configLED(LED1);
     P1OUT |= BIT0;              // led on
     blinkRateTimerA = setTimerA(time, &toggleRateLED1);
     startTimerA( (TIMER_A) blinkRateTimerA);
@@ -23,13 +23,13 @@ void blinkRateLED1(TIMER_A_TIME time)
 
 void blinkPushLED1(BUTTON but)
 {
-    _configLED(LED1);
+    configLED(LED1);
     P1OUT |= BIT0;              // led on
     configButton(but, &toggleLED1);
 }
 
 
-static void _configLED(LED led)
+void configLED(LED led)
 {
     switch(led)
     {
@@ -70,19 +70,3 @@ void toggleLED1()
 {
     P1OUT ^= BIT0;
 }
-
-//#define multiply(x,y)   (x)*(y)
-//
-//
-//inline double multiply(double num1, double num2)
-//{
-//    return num1 * num2;
-//}__attribute__((always_inline))
-//
-//struct myStuct{
-//    char one;
-//    uint32_t two;
-//    uint16_t three;
-//}__attribute__((aligned(8)));
-//__attribute__((packed));
-// align bytes in struct for speed

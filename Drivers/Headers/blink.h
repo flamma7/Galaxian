@@ -41,7 +41,7 @@ void blinkPushLED1(BUTTON but);
 //void blinkCycle(BUTTON but);
 
 /* Configures led pin(s) as output(s) set to low */
-static void _configLED(LED led);
+void configLED(LED led);
 
 /* Toggles LED P1.0 and restarts timerA intrpt */
 uint8_t toggleRateLED1();

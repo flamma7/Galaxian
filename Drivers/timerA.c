@@ -51,17 +51,41 @@ static void _configTimerA0(const TIMER_A_TIME time)
 {
     switch(time)
     {
+    case ONE_MS:
+       TA0CTL |= TACLR;
+       TA0CTL &= ~TAIFG;
+       TA0CTL |= TASSEL_2;
+       TA0CTL &= ~ID_0;
+       TA0CTL |= MC_1;
+       TA0CTL |= TAIE;
+       TA0EX0 &= ~TAIDEX_0;
+       TA0CCTL0 = TIMER_A_CCTLN_CCIE;
+       NVIC_EnableIRQ(TA0_0_IRQn);
+       _timerA0_counter = 3000;
+        break;
+    case TEN_MS:
+        TA0CTL |= TACLR;
+       TA0CTL &= ~TAIFG;
+       TA0CTL |= TASSEL_2;
+       TA0CTL &= ~ID_0;
+       TA0CTL |= MC_1;
+       TA0CTL |= TAIE;
+       TA0EX0 &= ~TAIDEX_0;
+       TA0CCTL0 = TIMER_A_CCTLN_CCIE;
+       NVIC_EnableIRQ(TA0_0_IRQn);
+       _timerA0_counter = 30000;
+        break;
     case ONE_S:
-           TA0CTL |= TACLR;
-           TA0CTL &= ~TAIFG;
-           TA0CTL |= TASSEL_1;
-           TA0CTL &= ~ID_0;
-           TA0CTL |= MC_1;
-           TA0CTL |= TAIE;
-           TA0EX0 &= ~TAIDEX_0;
-           _timerA0_counter = 0x7FFF;
-           TA0CCTL0 = TIMER_A_CCTLN_CCIE;
-           NVIC_EnableIRQ(TA0_0_IRQn);
+       TA0CTL |= TACLR;
+       TA0CTL &= ~TAIFG;
+       TA0CTL |= TASSEL_1;
+       TA0CTL &= ~ID_0;
+       TA0CTL |= MC_1;
+       TA0CTL |= TAIE;
+       TA0EX0 &= ~TAIDEX_0;
+       TA0CCTL0 = TIMER_A_CCTLN_CCIE;
+       NVIC_EnableIRQ(TA0_0_IRQn);
+       _timerA0_counter = 0x7FFF;
         break;
     case HALF_S:
         TA0CTL |= TACLR;
@@ -71,9 +95,9 @@ static void _configTimerA0(const TIMER_A_TIME time)
        TA0CTL |= MC_1;
        TA0CTL |= TAIE;
        TA0EX0 &= ~TAIDEX_0;
-       _timerA0_counter = 0x3FFF;
        TA0CCTL0 = TIMER_A_CCTLN_CCIE;
        NVIC_EnableIRQ(TA0_0_IRQn);
+       _timerA0_counter = 0x3FFF;
     default:
         break;
     }
