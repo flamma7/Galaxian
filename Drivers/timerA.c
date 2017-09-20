@@ -83,17 +83,104 @@ static void _configTimerA0(const TIMER_A_TIME time)
 
 static void _configTimerA1(const TIMER_A_TIME time)
 {
-    ;
+   TA1CTL |= TACLR;
+   TA1CTL &= ~TAIFG;
+   TA1CTL &= ~ID_0;
+   TA1CTL |= MC_1;
+   TA1CTL |= TAIE;
+   TA1EX0 &= ~TAIDEX_0;
+   TA1CCTL0 = TIMER_A_CCTLN_CCIE;
+   NVIC_EnableIRQ(TA1_0_IRQn);
+
+    // Select clock and count
+    switch(time)
+    {
+    case ONE_MS:
+       TA1CTL |= TASSEL_2;
+       _timerA1_counter = 3000;
+        break;
+    case TEN_MS:
+       TA1CTL |= TASSEL_2;
+       _timerA1_counter = 30000;
+        break;
+    case ONE_S:
+       TA1CTL |= TASSEL_1;
+       _timerA1_counter = 0x7FFF;
+        break;
+    case HALF_S:
+       TA1CTL |= TASSEL_1;
+       _timerA1_counter = 0x3FFF;
+    default:
+        break;
+    }
 }
 
 static void _configTimerA2(const TIMER_A_TIME time)
 {
-    ;
+   TA2CTL |= TACLR;
+   TA2CTL &= ~TAIFG;
+   TA2CTL &= ~ID_0;
+   TA2CTL |= MC_1;
+   TA2CTL |= TAIE;
+   TA2EX0 &= ~TAIDEX_0;
+   TA2CCTL0 = TIMER_A_CCTLN_CCIE;
+   NVIC_EnableIRQ(TA2_0_IRQn);
+
+    // Select clock and count
+    switch(time)
+    {
+    case ONE_MS:
+       TA2CTL |= TASSEL_2;
+       _timerA2_counter = 3000;
+        break;
+    case TEN_MS:
+       TA2CTL |= TASSEL_2;
+       _timerA2_counter = 30000;
+        break;
+    case ONE_S:
+       TA2CTL |= TASSEL_1;
+       _timerA2_counter = 0x7FFF;
+        break;
+    case HALF_S:
+       TA2CTL |= TASSEL_1;
+       _timerA2_counter = 0x3FFF;
+    default:
+        break;
+    }
 }
 
 static void _configTimerA3(const TIMER_A_TIME time)
 {
-    ;
+   TA3CTL |= TACLR;
+   TA3CTL &= ~TAIFG;
+   TA3CTL &= ~ID_0;
+   TA3CTL |= MC_1;
+   TA3CTL |= TAIE;
+   TA3EX0 &= ~TAIDEX_0;
+   TA3CCTL0 = TIMER_A_CCTLN_CCIE;
+   NVIC_EnableIRQ(TA3_0_IRQn);
+
+    // Select clock and count
+    switch(time)
+    {
+    case ONE_MS:
+       TA3CTL |= TASSEL_2;
+       _timerA3_counter = 3000;
+        break;
+    case TEN_MS:
+       TA3CTL |= TASSEL_2;
+       _timerA3_counter = 30000;
+        break;
+    case ONE_S:
+       TA3CTL |= TASSEL_1;
+       _timerA3_counter = 0x7FFF;
+        break;
+    case HALF_S:
+       TA3CTL |= TASSEL_1;
+       _timerA3_counter = 0x3FFF;
+    default:
+        break;
+    }
 }
 
 TIMER_A_START startTimerA(TIMER_A timerA)
