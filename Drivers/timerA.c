@@ -205,7 +205,7 @@ TIMER_A_START startTimerA(TIMER_A timerA)
     case TIMERA_3:
         if (!(_timerAs_in_use & TIMERA_3))
             return TIMER_A_START_ERR_NOT_CONFIGURED;
-            TA3CCR0 |= _timerA3_counter;
+        TA3CCR0 |= _timerA3_counter;
     default:
         return TIMER_A_START_ERR_NOT_CONFIGURED;
     }
@@ -214,9 +214,7 @@ TIMER_A_START startTimerA(TIMER_A timerA)
 
 void TimerA0Handler(void)
 {
-    if((*_timerA0_handler)())
-        TA0R = 0;
-    else
+    if(!((*_timerA0_handler)()))
         TA0CCR0 = 0;
     TA0CTL &= ~TAIFG;
     TA0CCTL0 &= ~CCIFG;
@@ -224,33 +222,24 @@ void TimerA0Handler(void)
 
 void TimerA1Handler(void)
 {
+    if(!((*_timerA1_handler)()))
+        TA1CCR0 = 0;
     TA1CTL &= ~TAIFG;
     TA1CCTL0 &= ~CCIFG;
-    TA1R = 0x0;
-    if((*_timerA1_handler)())
-        TA1R = 0;
-    else
-        TA1CCR0 = 0;
 }
 
 void TimerA2Handler(void)
 {
+    if(!((*_timerA2_handler)()))
+        TA2CCR0 = 0;
     TA2CTL &= ~TAIFG;
     TA2CCTL0 &= ~CCIFG;
-    TA2R = 0x0;
-    if((*_timerA2_handler)())
-        TA2R = 0;
-    else
-        TA2CCR0 = 0;
 }
 
 void TimerA3Handler(void)
 {
+    if(!((*_timerA3_handler)()))
+        TA3CCR0 = 0;
     TA3CTL &= ~TAIFG;
     TA3CCTL0 &= ~CCIFG;
-    TA3R = 0x0;
-    if((*_timerA3_handler)())
-        TA3R = 0;
-    else
-        TA3CCR0 = 0;
 }

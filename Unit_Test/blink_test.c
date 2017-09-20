@@ -10,6 +10,7 @@
 #include "../Drivers/Headers/blink.h"
 #include "../Drivers/Headers/button.h"
 #include <stdint.h>
+#include <assert.h>
 
 uint16_t callbackCounter = 0;
 
@@ -18,19 +19,14 @@ void Unit_Tester()
 //  testTimerA();
 //  testBlink();
 //  testFastBlink();
-    singleBlink();
-//    multipleTimers();
+//    singleBlink();
+    multipleTimers();
 
 }
 
 uint8_t multipleTimersCallback()
 {
-    TIMER_A timer = setTimerA(ONE_MS, &multipleTimersCallback);
-    if(timer != TIMERA_ERROR)
-    {
-        toggleLED1();
-        startTimerA(timer);
-    }
+    callbackCounter++;
     return 0;
 }
 
@@ -77,6 +73,16 @@ void singleBlink()
 
 void multipleTimers()
 {
-    TIMER_A timer = setTimerA(ONE_S, &multipleTimersCallback);
+    TIMER_A timer = setTimerA(HALF_S, &multipleTimersCallback);
     startTimerA(timer);
+    assert(timer == 1);
+    timer = setTimerA(HALF_S, &multipleTimersCallback);
+    startTimerA(timer);
+    assert(timer == 2);
+    timer = setTimerA(HALF_S, &multipleTimersCallback);
+    startTimerA(timer);
+    assert(timer == 4);
+    timer = setTimerA(HALF_S, &multipleTimersCallback);
+    startTimerA(timer);
+    assert(timer == 8);
 }
