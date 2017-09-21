@@ -13,22 +13,6 @@
 #include "Headers/button.h"
 #include "Headers/timerA.h"
 
-void blinkRateLED1(TIMER_A_TIME time)
-{
-    configLED(LED1);
-    P1OUT |= BIT0;              // led on
-    blinkRateTimerA = setTimerA(time, &toggleRateLED1);
-    startTimerA( (TIMER_A) blinkRateTimerA);
-}
-
-void blinkPushLED1(BUTTON but)
-{
-    configLED(LED1);
-    P1OUT |= BIT0;              // led on
-    configButton(but, &toggleLED1);
-}
-
-
 void configLED(LED led)
 {
     switch(led)
@@ -58,6 +42,12 @@ void configLED(LED led)
     default: // bad input
         break;
     }
+}
+
+uint8_t toggleColorsLED2()
+{
+    P2OUT = (P2OUT + 1) % 8;
+    return 1;
 }
 
 uint8_t toggleRateLED1()

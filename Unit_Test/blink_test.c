@@ -20,7 +20,8 @@ void Unit_Tester()
 //  testBlink();
 //  testFastBlink();
 //    singleBlink();
-    multipleTimers();
+//    multipleTimers();
+  testBlinkLEDs();
 
 }
 
@@ -72,23 +73,49 @@ void singleBlink()
     startTimerA(timerA);
 }
 
+void blinkRateLED1(TIMER_A_TIME time)
+{
+    configLED(LED1);
+    P1OUT |= BIT0;              // led on
+    blinkRateTimerA = setTimerA(time, &toggleRateLED1);
+    startTimerA( (TIMER_A) blinkRateTimerA);
+}
+
+void blinkPushLED1(BUTTON but)
+{
+    configLED(LED1);
+    P1OUT |= BIT0;              // led on
+    configButton(but, &toggleLED1);
+}
+
 void multipleTimers()
 {
     configLED(LED1);
 
     TIMER_A timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
+    while(timer != 0b1);
     while(callbackCounter != 1);
 
     timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
+    while(timer != 0b10);
     while(callbackCounter != 2);
 
     timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
+    while(timer != 0b100);
     while(callbackCounter != 3);
 
     timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
+    while(timer != 0b1000);
     while(callbackCounter != 4);
+}
+
+void testBlinkLEDs()
+{
+    configLED(LED1_LED2);
+    TIMER_A timer = setTimerA(HALF_S, &toggleColorsLED2);
+    startTimerA(timer);
 }

@@ -21,4 +21,12 @@ uint8_t singleBlinkCallback();
 uint8_t multipleTimersCallback();
 void multipleTimers();
 
+void testBlinkLEDs();
+
+/* Toggles LED 1 or 2 at specified rate using timer intrpt*/
+void blinkRateLED1(TIMER_A_TIME time);
+
+/* Toggles LED 1 with button depression of inputed button */
+void blinkPushLED1(BUTTON but);
+
 #endif /* UNIT_TEST_HEADERS_BLINK_TEST_H_ */
