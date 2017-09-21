@@ -27,6 +27,7 @@ void Unit_Tester()
 uint8_t multipleTimersCallback()
 {
     callbackCounter++;
+    toggleLED1();
     return 0;
 }
 
@@ -73,16 +74,21 @@ void singleBlink()
 
 void multipleTimers()
 {
-    TIMER_A timer = setTimerA(HALF_S, &multipleTimersCallback);
+    configLED(LED1);
+
+    TIMER_A timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
-    assert(timer == 1);
-    timer = setTimerA(HALF_S, &multipleTimersCallback);
+    while(callbackCounter != 1);
+
+    timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
-    assert(timer == 2);
-    timer = setTimerA(HALF_S, &multipleTimersCallback);
+    while(callbackCounter != 2);
+
+    timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
-    assert(timer == 4);
-    timer = setTimerA(HALF_S, &multipleTimersCallback);
+    while(callbackCounter != 3);
+
+    timer = setTimerA(ONE_S, &multipleTimersCallback);
     startTimerA(timer);
-    assert(timer == 8);
+    while(callbackCounter != 4);
 }
