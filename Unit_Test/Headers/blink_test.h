@@ -9,6 +9,8 @@
 #define UNIT_TEST_HEADERS_BLINK_TEST_H_
 
 #include <stdint.h>
+#include "../../Drivers/Headers/button.h"
+#include "../../Drivers/Headers/timerA.h"
 
 void Unit_Tester();
 

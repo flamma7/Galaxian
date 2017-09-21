@@ -20,9 +20,14 @@ typedef enum LED_t{
 }LED;
 
 typedef enum COLOR_t{
+    OFF,
     RED,
     GREEN,
-    BLUE
+    YELLOW,
+    BLUE,
+    PINK,
+    LIGHT_BLUE,
+    WHITE
 }COLOR;
 
 

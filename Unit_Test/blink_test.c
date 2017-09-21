@@ -5,12 +5,12 @@
  *      Author: luke
  *      General file with a few unit tests related to timerA, buttons and leds
  */
+#include "msp.h"
 #include "Headers/blink_test.h"
 #include "../Drivers/Headers/timerA.h"
 #include "../Drivers/Headers/blink.h"
 #include "../Drivers/Headers/button.h"
 #include <stdint.h>
-#include <assert.h>
 
 uint16_t callbackCounter = 0;
 
@@ -21,7 +21,8 @@ void Unit_Tester()
 //  testFastBlink();
 //    singleBlink();
 //    multipleTimers();
-  testBlinkLEDs();
+//  testBlinkLEDs();
+    setColorLED2(PINK);
 
 }
 

@@ -44,6 +44,13 @@ void configLED(LED led)
     }
 }
 
+void setColorLED2(COLOR col)
+{
+    configLED(LED2);
+    P2OUT &= ~WHITE;
+    P2OUT |= col;
+}
+
 uint8_t toggleColorsLED2()
 {
     P2OUT = (P2OUT + 1) % 8;
