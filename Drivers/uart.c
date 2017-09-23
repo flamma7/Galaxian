@@ -3,6 +3,8 @@
  *
  *  Created on: Sep 15, 2017
  *      Author: luke & Derek
+ *
+ *      See Header file for implementation
  */
 
 #include "msp.h"
@@ -16,17 +18,19 @@
 
 // 4 eUSCI_A modules !
 
-// assumes str has been given radix of 4
-static void _uitoa32(uint32_t num, char * str)
+void config_uart()
 {
-    str[9] = (num % 10) + ASCII_ZERO;
-    int8_t i;
-    for(i = 8; i > -1; i--)
-    {
-        num = num / 10;
-        str[i] = (num % 10) + ASCII_ZERO;
-    }
-    str[10] = '\0';
+    P1SEL0 |= BIT2 | BIT3;       //Configures UART mode
+    P1SEL1 &= ~BIT2 & ~BIT3;
+    UCA0CTLW0 |= UCSWRST;
+    UCA0CTLW0 &= ~UCPEN;
+    UCA0CTLW0 &= ~UCMSB;
+    UCA0CTLW0 &= ~UC7BIT;
+    UCA0CTLW0 &= ~UCSPB;
+    UCA0CTLW0 &= ~UCMODE_3;             // mode 0
+    UCA0CTLW0 &= ~UCSYNC;
+    _config_baud_9600();
+    UCA0CTLW0 &= ~UCSWRST;
 }
 
 void transmit_char(const char a)
@@ -45,33 +49,16 @@ void transmit_str(const char * str)
         if(UCA0IFG & UCTXIFG)
             UCA0TXBUF = str[i++];
     }
+    transmit_char('\n');
 }
 
 void transmit_num32(uint32_t num)
 {
-    uint32_t radix = 11;                // max chars in decimal 32 bit + '\0'
+    uint32_t radix = 11;                // max chars in decimal 32 bit (10) + '\0'
     char * str = (char *) malloc(sizeof(char) * radix);
     _uitoa32(num, str);
     transmit_str(str);
     free(str);
-}
-
-
-void config_uart()
-{
-    P1SEL0 |= BIT2 | BIT3;       //Configures UART mode
-    P1SEL1 &= ~BIT2 & ~BIT3;
-    UCA0CTLW0 |= UCSWRST;
-    UCA0CTLW0 &= ~UCPEN;
-    UCA0CTLW0 &= ~UCMSB;
-    UCA0CTLW0 &= ~UC7BIT;
-    UCA0CTLW0 &= ~UCSPB;
-    UCA0CTLW0 &= ~UCMODE_3;             // mode 0
-    UCA0CTLW0 &= ~UCSYNC;
-    _config_baud_9600();
-    // UCAxCTLW1 register?
-
-    UCA0CTLW0 &= ~UCSWRST;
 }
 
 static void _config_baud_9600()
@@ -81,5 +68,17 @@ static void _config_baud_9600()
     UCA0BRW |= 19;                      // UCBRx
     UCA0MCTLW |= 0xAA00;                // UCBRSx
     UCA0MCTLW |= 0x80;                  // UCBRFx
-//    UCA0MCTLW |=      // how to configure?
+}
+
+// assumes str has radix of >= 11
+static void _uitoa32(uint32_t num, char * str)
+{
+    str[9] = (num % 10) + ASCII_ZERO;
+    int8_t i;
+    for(i = 8; i > -1; i--)
+    {
+        num = num / 10;
+        str[i] = (num % 10) + ASCII_ZERO;
+    }
+    str[10] = '\0';
 }
