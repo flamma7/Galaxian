@@ -14,8 +14,7 @@ void Uart_Tester()
     config_uart();
 //    test_simple_transmit();
 //    transmit_str("Sip that tea");
-    uint8_t num = 124;
-    transmit_num32((uint32_t)num);
+    transmit_num32((uint32_t)0x34f26734);
 }
 
 

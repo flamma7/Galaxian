@@ -38,6 +38,8 @@ void transmit_char(const char a)
 void transmit_str(const char * str)
 {
     uint8_t i = 0;
+    while(str[i++] == '0');             // skip through leading zeros
+    i--;                                // Go back one place
     while(str[i] != '\0')
     {
         if(UCA0IFG & UCTXIFG)
@@ -47,9 +49,8 @@ void transmit_str(const char * str)
 
 void transmit_num32(uint32_t num)
 {
-    uint32_t radix = 10;
-//    char str[radix+10];           // doesn't work
-    char * str = (char *) malloc(sizeof(char) * (radix + 1));
+    uint32_t radix = 11;                // max chars in decimal 32 bit + '\0'
+    char * str = (char *) malloc(sizeof(char) * radix);
     _uitoa32(num, str);
     transmit_str(str);
     free(str);
