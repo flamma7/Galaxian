@@ -46,7 +46,7 @@ typedef enum TIMER_A_TIME_t{
     TEN_MS,
     HALF_S,
     ONE_S,
-}TIMER_A_TIME;
+}TIMER_A_TIME;aaa
 
 
 // TODO make a release timer function
