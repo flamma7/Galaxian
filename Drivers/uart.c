@@ -2,7 +2,7 @@
  * uart.c
  *
  *  Created on: Sep 15, 2017
- *      Author: luke
+ *      Author: luke & Derek
  */
 
 #include "msp.h"
@@ -11,19 +11,22 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+#define ASCII_ZERO          48
+
 // 4 eUSCI_A modules !
 
-// assumes str has been given radix of 3
-static void uitoa8(uint8_t num, char * str)
+// assumes str has been given radix of 4
+static void _uitoa32(uint32_t num, char * str)
 {
-    str[2] = num % 10;
-    uint8_t i;
-    for(i = 1; i > -1; i--)
+    str[9] = (num % 10) + ASCII_ZERO;
+    int8_t i;
+    for(i = 8; i > -1; i--)
     {
         num = num / 10;
-        str[i] = (num % 10) + 48;
+        str[i] = (num % 10) + ASCII_ZERO;
     }
-    str[3] = '\0';
+    str[10] = '\0';
 }
 
 void transmit_char(const char a)
@@ -42,25 +45,14 @@ void transmit_str(const char * str)
     }
 }
 
-void transmit_num8(uint8_t num)
-{
-    uint8_t radix = 3;
-    char str[radix + 1];
-    uitoa8(num, str);
-    transmit_str(str);
-}
-
-void transmit_num16(uint16_t num)
-{
-    uint8_t radix = 3;
-    char str[radix];
-//    itoa(num, str, radix);
-    transmit_str(str);
-}
-
 void transmit_num32(uint32_t num)
 {
-
+    uint32_t radix = 10;
+//    char str[radix+10];           // doesn't work
+    char * str = (char *) malloc(sizeof(char) * (radix + 1));
+    _uitoa32(num, str);
+    transmit_str(str);
+    free(str);
 }
 
 

@@ -14,7 +14,7 @@
 /* Configures the eUSCI_A module to UART mode */
 void config_uart();
 static void _config_baud_9600();
-static void uitoa8(uint8_t num, char * str);
+static void _uitoa32(uint32_t num, char * str);
 
 /* Transmits a string over UART, reads until NULL terminator */
 void transmit_str(const char * str);
