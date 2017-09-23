@@ -49,6 +49,8 @@ typedef enum TIMER_A_TIME_t{
 }TIMER_A_TIME;
 
 
+// TODO make a release timer function
+
 /* Returns an open timerA, given a time and a callback */
 TIMER_A setTimerA(const TIMER_A_TIME time, uint8_t(*handler)(void));
 /* Start selected timerA */

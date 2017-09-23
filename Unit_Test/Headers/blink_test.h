@@ -12,7 +12,7 @@
 #include "../../Drivers/Headers/button.h"
 #include "../../Drivers/Headers/timerA.h"
 
-void Unit_Tester();
+void Blink_Tester();
 
 void testBlink();
 void testTimerA();

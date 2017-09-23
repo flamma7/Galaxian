@@ -14,7 +14,10 @@
 
 uint16_t callbackCounter = 0;
 
-void Unit_Tester()
+
+
+
+void Blink_Tester()
 {
 //  testTimerA();
 //  testBlink();
@@ -22,8 +25,7 @@ void Unit_Tester()
 //    singleBlink();
 //    multipleTimers();
 //  testBlinkLEDs();
-    setColorLED2(PINK);
-
+//    setColorLED2(PINK);
 }
 
 uint8_t multipleTimersCallback()
