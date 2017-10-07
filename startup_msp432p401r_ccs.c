@@ -37,6 +37,7 @@
 #include <stdint.h>
 
 extern void Port1Handler(void);
+extern void Port5Handler(void);
 extern void TimerA0Handler(void);
 extern void TimerA1Handler(void);
 extern void TimerA2Handler(void);
@@ -173,7 +174,7 @@ void (* const interruptVectors[])(void) =
     PORT2_IRQHandler,                      /* Port2 Interrupt           */
     PORT3_IRQHandler,                      /* Port3 Interrupt           */
     PORT4_IRQHandler,                      /* Port4 Interrupt           */
-    PORT5_IRQHandler,                      /* Port5 Interrupt           */
+    Port5Handler,                      /* Port5 Interrupt           */
     PORT6_IRQHandler                       /* Port6 Interrupt           */
 };
 

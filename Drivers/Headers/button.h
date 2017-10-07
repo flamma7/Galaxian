@@ -13,10 +13,18 @@ static uint8_t buttons_in_use = 0;     // determine if a timerA is already in us
 /* global function ptr's for intrpts */
 static void (*button_s1_handler)(void);
 static void (*button_s2_handler)(void);
+static void (*booster_s1_handler)(void);
+static void (*booster_s2_handler)(void);
+static void (*joystick_s1_handler)(void);
+
+static void (*debouncer)(void);
 
 typedef enum BUTTON_t{
-    BUTTON_S1,
-    BUTTON_S2
+    LPAD_S1     =   0b00001,
+    LPAD_S2     =   0b00010,
+    BOOSTER_S1  =   0b00100,
+    BOOSTER_S2  =   0b01000,
+    JOYSTICK_S1 =   0b10000
 }BUTTON;
 
 typedef enum BUTTON_CONFIG_t{
@@ -28,7 +36,12 @@ typedef enum BUTTON_CONFIG_t{
 /* Configures button to trigger an interrupt and call inputed function */
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void));
 
+/* Debounce using timerA */
+uint8_t _debounceHandler1(void);
+uint8_t _debounceHandler5(void);
+
 /* Port 1 ISR */
 void Port1Handler(void);
+void Port5Handler(void);
 
 #endif /* DRIVERS_HEADERS_BUTTON_H_ */

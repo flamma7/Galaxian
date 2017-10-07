@@ -26,6 +26,7 @@ void Blink_Tester()
 //    multipleTimers();
 //  testBlinkLEDs();
 //    setColorLED2(PINK);
+    test_booster_buttons();
 }
 
 uint8_t multipleTimersCallback()
@@ -61,7 +62,7 @@ void testFastBlink()
 
 void testBlink()
 {
-    blinkPushLED1(BUTTON_S2);
+    blinkPushLED1(LPAD_S2);
 }
 
 void testTimerA()
@@ -121,4 +122,10 @@ void testBlinkLEDs()
     configLED(LED1_LED2);
     TIMER_A timer = setTimerA(HALF_S, &toggleColorsLED2);
     startTimerA(timer);
+}
+
+void test_booster_buttons()
+{
+    configLED(LED1);
+    configButton(BOOSTER_S1, &toggleLED1);
 }

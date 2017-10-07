@@ -2,7 +2,7 @@
  * uart.c
  *
  *  Created on: Sep 15, 2017
- *      Author: luke & Derek
+ *      Author: luke & derek
  *
  *      See Header file for implementation
  */
@@ -42,7 +42,7 @@ void transmit_char(const char a)
 void transmit_str(const char * str)
 {
     uint8_t i = 0;
-    while(str[i++] == '0');             // skip through leading zeros
+    while(str[i++] == '0');             // skip through leading zeros (for number transmits)
     i--;                                // Go back one place
     while(str[i] != '\0')
     {
