@@ -36,12 +36,9 @@ typedef enum BUTTON_CONFIG_t{
 /* Configures button to trigger an interrupt and call inputed function */
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void));
 
-/* Debounce using timerA */
-uint8_t _debounceHandler1(void);
-uint8_t _debounceHandler5(void);
-
 /* Port 1 ISR */
 void Port1Handler(void);
+void Port3Handler(void);
 void Port5Handler(void);
 
 #endif /* DRIVERS_HEADERS_BUTTON_H_ */

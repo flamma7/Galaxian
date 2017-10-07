@@ -9,9 +9,6 @@
 #include "Headers/button.h"
 #include <stdio.h> // NULL
 
-TIMER_A buttonTimer1;
-TIMER_A buttonTimer5;
-
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
 {
     if(handler == NULL)
@@ -56,7 +53,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
         P5DIR &= ~BIT1;
         P5IE |= BIT1;
         P5IFG &= ~BIT1;
-        P5IES |= BIT1;                  // LOW TO HIGH flag intrpt
+        P5IES &= ~BIT1;                  // LOW TO HIGH flag intrpt
         booster_s1_handler = handler;
         P5REN |= BIT1;
         P5OUT |= BIT1;                  // PULL UP
@@ -75,61 +72,35 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
             return BUTTON_CONFIG_ERR_IN_USE;
         else
             buttons_in_use |= JOYSTICK_S1;
+        // p4.1
         break;
     default:
         return BUTTON_CONFIG_ERR_BAD_INPUT;
     }
     return BUTTON_CONFIG_NO_ERROR;
-
-    buttonTimer1 = setTimerA(ONE_MS, &_debounce1);
-    buttonTimer5 = setTimerA(ONE_MS, &_debounce5);
-}
-
-uint8_t _debounceHandler1(void)
-{
-    if(P1IFG & BIT1)
-    {
-        (*button_s1_handler)();
-        P1IFG &= ~BIT1;
-    }
-    else if (P1IFG & BIT4)
-    {
-        (*button_s2_handler)();
-        P1IFG &= ~BIT4;
-    }
-    return 0;
-}
-
-uint8_t _debounceHandler5(void)
-{
-    if(P1IFG & BIT1)
-    {
-        (*button_s1_handler)();
-        P1IFG &= ~BIT1;
-    }
-    else if (P1IFG & BIT4)
-    {
-        (*button_s2_handler)();
-        P1IFG &= ~BIT4;
-    }
 }
 
 void Port1Handler(void)
+{
+    if(P1IFG & BIT1)
+    {
+        P1IFG &= ~BIT1;
+        (*button_s1_handler)();
+    }
+    else if (P1IFG & BIT4)
+    {
+        P1IFG &= ~BIT4;
+        (*button_s1_handler)();
+    }
+}
+
+void Port3Handler(void)
 {
 
 }
 
 void Port5Handler(void)
 {
-    startTimerA(buttonTimer1);
-    // start timerA
-    _debounce();
-
-
-
-
-    P5IE &= ~BIT1;
-    _debounce = booster_s1_handler;
     P5IFG &= ~BIT1;
-    P5IE |= BIT1;
+    (*booster_s1_handler)();
 }
