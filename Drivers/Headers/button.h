@@ -17,8 +17,6 @@ static void (*booster_s1_handler)(void);
 static void (*booster_s2_handler)(void);
 static void (*joystick_s1_handler)(void);
 
-static void (*debouncer)(void);
-
 typedef enum BUTTON_t{
     LPAD_S1     =   0b00001,
     LPAD_S2     =   0b00010,
@@ -39,6 +37,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void));
 /* Port 1 ISR */
 void Port1Handler(void);
 void Port3Handler(void);
+void Port4Handler(void);
 void Port5Handler(void);
 
 #endif /* DRIVERS_HEADERS_BUTTON_H_ */

@@ -65,6 +65,14 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
             return BUTTON_CONFIG_ERR_IN_USE;
         else
             buttons_in_use |= BOOSTER_S2;
+        P3DIR &= ~BIT5;
+        P3IE |= BIT5;
+        P3IFG &= ~BIT5;
+        P3IES &= ~BIT5;                  // LOW TO HIGH flag intrpt
+        booster_s2_handler = handler;
+        P3REN |= BIT5;
+        P3OUT |= BIT5;                  // PULL UP
+        NVIC_EnableIRQ(PORT3_IRQn);
         // p3.5
         break;
     case JOYSTICK_S1:
@@ -72,6 +80,14 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
             return BUTTON_CONFIG_ERR_IN_USE;
         else
             buttons_in_use |= JOYSTICK_S1;
+        P4DIR &= ~BIT1;
+        P4IE |= BIT1;
+        P4IFG &= ~BIT1;
+        P4IES &= ~BIT1;                  // LOW TO HIGH flag intrpt
+        joystick_s1_handler = handler;
+        P4REN |= BIT1;
+        P4OUT |= BIT1;                  // PULL UP
+        NVIC_EnableIRQ(PORT4_IRQn);
         // p4.1
         break;
     default:
@@ -96,7 +112,14 @@ void Port1Handler(void)
 
 void Port3Handler(void)
 {
+    P3IFG &= ~BIT5;
+    (*booster_s2_handler)();
+}
 
+void Port4Handler(void)
+{
+    P4IFG &= ~BIT1;
+    (*joystick_s1_handler)();
 }
 
 void Port5Handler(void)
