@@ -19,12 +19,14 @@ static void (*joystick_s1_handler)(void);
 
 static void (*debouncer)(void);
 
+static uint8_t buttonTimerInUse = 0;
+
 typedef enum BUTTON_t{
     LPAD_S1     =   0b00001,
     LPAD_S2     =   0b00010,
     BOOSTER_S1  =   0b00100,
     BOOSTER_S2  =   0b01000,
-    JOYSTICK_S1 =   0b10000
+    JOYSTICK_S1 =   0b10000,
 }BUTTON;
 
 typedef enum BUTTON_CONFIG_t{
@@ -37,11 +39,12 @@ typedef enum BUTTON_CONFIG_t{
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void));
 
 /* Debounce using timerA */
-uint8_t _debounceHandler1(void);
-uint8_t _debounceHandler5(void);
+uint8_t _debounceHandler(void);
 
 /* Port 1 ISR */
 void Port1Handler(void);
+void Port3Handler(void);
+void Port4Handler(void);
 void Port5Handler(void);
 
 #endif /* DRIVERS_HEADERS_BUTTON_H_ */

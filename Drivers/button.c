@@ -9,8 +9,8 @@
 #include "Headers/button.h"
 #include <stdio.h> // NULL
 
-TIMER_A buttonTimer1;
-TIMER_A buttonTimer5;
+TIMER_A buttonTimer;
+BUTTON buttonIntrpt;
 
 BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
 {
@@ -68,6 +68,14 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
             return BUTTON_CONFIG_ERR_IN_USE;
         else
             buttons_in_use |= BOOSTER_S2;
+        P3DIR &= ~BIT5;
+        P3IE |= BIT5;
+        P3IFG &= ~BIT5;
+        P3IES |= BIT5;                  // LOW TO HIGH flag intrpt
+        booster_s2_handler = handler;
+        P3REN |= BIT5;
+        P3OUT |= BIT5;                  // PULL UP
+        NVIC_EnableIRQ(PORT3_IRQn);
         // p3.5
         break;
     case JOYSTICK_S1:
@@ -75,42 +83,47 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
             return BUTTON_CONFIG_ERR_IN_USE;
         else
             buttons_in_use |= JOYSTICK_S1;
+        P4DIR &= ~BIT1;
+        P4IE |= BIT1;
+        P4IFG &= ~BIT1;
+        P4IES |= BIT1;                  // LOW TO HIGH flag intrpt
+        joystick_s1_handler = handler;
+        P4REN |= BIT1;
+        P4OUT |= BIT1;                  // PULL UP
+        NVIC_EnableIRQ(PORT4_IRQn);
         break;
+        // p4.1
     default:
         return BUTTON_CONFIG_ERR_BAD_INPUT;
     }
     return BUTTON_CONFIG_NO_ERROR;
 
-    buttonTimer1 = setTimerA(ONE_MS, &_debounce1);
-    buttonTimer5 = setTimerA(ONE_MS, &_debounce5);
+    buttonTimer = setTimerA(TEN_MS, &_debounceHandler);
 }
 
-uint8_t _debounceHandler1(void)
+// simply reenables the intrpt
+uint8_t _debounceHandler(void)
 {
-    if(P1IFG & BIT1)
+    buttonTimerInUse = 0;
+    swtich(buttonIntrpt)
     {
-        (*button_s1_handler)();
-        P1IFG &= ~BIT1;
-    }
-    else if (P1IFG & BIT4)
-    {
-        (*button_s2_handler)();
-        P1IFG &= ~BIT4;
-    }
-    return 0;
-}
-
-uint8_t _debounceHandler5(void)
-{
-    if(P1IFG & BIT1)
-    {
-        (*button_s1_handler)();
-        P1IFG &= ~BIT1;
-    }
-    else if (P1IFG & BIT4)
-    {
-        (*button_s2_handler)();
-        P1IFG &= ~BIT4;
+        case LPAD_S1:
+            P1IE |= BIT1;
+            break;
+        case LPAD_S2:
+            P1IE |= BIT4;
+           break;
+        case BOOSTER_S1:
+            P5IE |= BIT1;
+            break;
+        case BOOSTER_S2:
+            P3IE |= BIT5;
+            break;
+        case JOYSTICK_S1:
+            P4IE |= BIT1;
+            break;
+        default:
+            break;
     }
 }
 
@@ -119,17 +132,17 @@ void Port1Handler(void)
 
 }
 
+void Port3Handler(void)
+{
+
+}
+
+void Port4Handler(void)
+{
+
+}
+
 void Port5Handler(void)
 {
-    startTimerA(buttonTimer1);
-    // start timerA
-    _debounce();
 
-
-
-
-    P5IE &= ~BIT1;
-    _debounce = booster_s1_handler;
-    P5IFG &= ~BIT1;
-    P5IE |= BIT1;
 }

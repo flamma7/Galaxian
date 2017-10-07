@@ -7,8 +7,8 @@
  * Author: luke
  */
 
-//#include "Unit_Test/Headers/blink_test.h"
-#include "Unit_Test/Headers/uart_test.h"
+#include "Unit_Test/Headers/blink_test.h"
+//#include "Unit_Test/Headers/uart_test.h"
 
 void main(void)
 {

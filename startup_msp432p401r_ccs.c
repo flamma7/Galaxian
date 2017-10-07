@@ -37,6 +37,8 @@
 #include <stdint.h>
 
 extern void Port1Handler(void);
+extern void Port3Handler(void);
+extern void Port4Handler(void);
 extern void Port5Handler(void);
 extern void TimerA0Handler(void);
 extern void TimerA1Handler(void);
@@ -172,8 +174,8 @@ void (* const interruptVectors[])(void) =
     DMA_INT0_IRQHandler,                   /* DMA_INT0 Interrupt        */
     Port1Handler,                      /* Port1 Interrupt           */
     PORT2_IRQHandler,                      /* Port2 Interrupt           */
-    PORT3_IRQHandler,                      /* Port3 Interrupt           */
-    PORT4_IRQHandler,                      /* Port4 Interrupt           */
+    Port3Handler,                      /* Port3 Interrupt           */
+    Port4Handler,                      /* Port4 Interrupt           */
     Port5Handler,                      /* Port5 Interrupt           */
     PORT6_IRQHandler                       /* Port6 Interrupt           */
 };
