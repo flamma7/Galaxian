@@ -7,6 +7,7 @@
 
 #include "msp.h"
 #include "Headers/button.h"
+#include "Headers/timerA.h"
 #include <stdio.h> // NULL
 
 TIMER_A buttonTimer;
@@ -96,16 +97,16 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
     default:
         return BUTTON_CONFIG_ERR_BAD_INPUT;
     }
-    return BUTTON_CONFIG_NO_ERROR;
+    buttonTimer = setTimerA(ONE_MS, &_debounceHandler);
 
-    buttonTimer = setTimerA(TEN_MS, &_debounceHandler);
+    return BUTTON_CONFIG_NO_ERROR;
 }
 
 // simply reenables the intrpt
 uint8_t _debounceHandler(void)
 {
     buttonTimerInUse = 0;
-    swtich(buttonIntrpt)
+    switch(buttonIntrpt)
     {
         case LPAD_S1:
             P1IE |= BIT1;
@@ -125,24 +126,86 @@ uint8_t _debounceHandler(void)
         default:
             break;
     }
+    return 0;
 }
 
 void Port1Handler(void)
 {
+    if (buttonTimerInUse)               // ignore the input if another input is already being tracked
+    {
+        P1IFG &= ~BIT1;
+        P1IFG &= ~BIT4;
+        return;
+    }
 
+    if(P1IFG & BIT1)
+    {
+        P1IE &= ~BIT1;
+        P1IFG &= ~BIT1;
+        buttonIntrpt = LPAD_S1;
+        startTimerA(buttonTimer);
+        (*button_s1_handler)();
+    }
+    else if(P1IFG & BIT4)
+    {
+        P1IE &= ~BIT4;
+        P1IFG &= ~BIT4;
+        buttonIntrpt = LPAD_S2;
+        startTimerA(buttonTimer);
+        (*button_s2_handler)();
+    }
 }
 
 void Port3Handler(void)
 {
+    if (buttonTimerInUse)               // ignore the input if another input is already being tracked
+    {
+        P3IFG &= ~BIT5;
+        return;
+    }
 
+    if(P3IFG & BIT5)
+    {
+        P3IE &= ~BIT5;
+        P3IFG &= ~BIT5;
+        buttonIntrpt = BOOSTER_S2;
+        startTimerA(buttonTimer);
+        (*booster_s2_handler)();
+    }
 }
 
 void Port4Handler(void)
 {
+    if (buttonTimerInUse)               // ignore the input if another input is already being tracked
+    {
+        P4IFG &= ~BIT1;
+        return;
+    }
 
+    if(P4IFG & BIT1)
+    {
+        P4IE &= ~BIT1;
+        P4IFG &= ~BIT1;
+        buttonIntrpt = JOYSTICK_S1;
+        startTimerA(buttonTimer);
+        (*joystick_s1_handler)();
+    }
 }
 
 void Port5Handler(void)
 {
+    if (buttonTimerInUse)               // ignore the input if another input is already being tracked
+    {
+        P5IFG &= ~BIT1;
+        return;
+    }
 
+    if(P5IFG & BIT1)
+    {
+        P5IE &= ~BIT1;
+        P5IFG &= ~BIT1;
+        buttonIntrpt = BOOSTER_S1;
+        startTimerA(buttonTimer);
+        (*booster_s1_handler)();
+    }
 }
