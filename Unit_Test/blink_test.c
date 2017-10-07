@@ -127,5 +127,8 @@ void testBlinkLEDs()
 void test_booster_buttons()
 {
     configLED(LED1);
-    configButton(BOOSTER_S1, &toggleLED1);
+//    configButton(BOOSTER_S1, &toggleLED1);
+//    configButton(BOOSTER_S2, &toggleLED1);
+    configButton(JOYSTICK_S1, &toggleLED1);
+
 }
