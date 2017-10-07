@@ -10,5 +10,7 @@
 
 void Uart_Tester();
 void test_simple_transmit();
+void read_debounce();
+uint8_t uart_debounce_callback();
 
 #endif /* UNIT_TEST_HEADERS_UART_TEST_H_ */

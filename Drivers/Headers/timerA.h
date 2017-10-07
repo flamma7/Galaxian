@@ -44,6 +44,7 @@ typedef enum TIMER_A_START_t{
 typedef enum TIMER_A_TIME_t{
     ONE_MS,
     TEN_MS,
+    FORTY_MS,
     HALF_S,
     ONE_S,
 }TIMER_A_TIME;

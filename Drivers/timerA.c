@@ -67,6 +67,11 @@ static void _configTimerA0(const TIMER_A_TIME time)
        TA0CTL |= TASSEL_2;
        _timerA0_counter = 30000;
         break;
+    case FORTY_MS:
+       TA0CTL |= TASSEL_2;
+       TA0CTL |= ID_3;
+       _timerA0_counter = 15000;
+       break;
     case ONE_S:
        TA0CTL |= TASSEL_1;
        _timerA0_counter = 0x7FFF;

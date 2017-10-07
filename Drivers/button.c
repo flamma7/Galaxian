@@ -30,7 +30,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
         P1IFG &= ~BIT1;
         P1IES |= BIT1;                  // LOW TO HIGH flag intrpt
         button_s1_handler = handler;
-        P1REN |= BIT1;
+        P1REN |= BIT1;                  // enables pulldown/pullup
         P1OUT |= BIT1;                  // PULL UP
         NVIC_EnableIRQ(PORT1_IRQn);
 
@@ -59,7 +59,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
         P5IFG &= ~BIT1;
         P5IES |= BIT1;                  // LOW TO HIGH flag intrpt
         booster_s1_handler = handler;
-        P5REN |= BIT1;
+        P5REN |= BIT1;                  // enables pullup/pulldown
         P5OUT |= BIT1;                  // PULL UP
         NVIC_EnableIRQ(PORT5_IRQn);
         // p5.1
@@ -97,7 +97,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
     default:
         return BUTTON_CONFIG_ERR_BAD_INPUT;
     }
-    buttonTimer = setTimerA(ONE_MS, &_debounceHandler);
+    buttonTimer = setTimerA(FORTY_MS, &_debounceHandler);
 
     return BUTTON_CONFIG_NO_ERROR;
 }
@@ -110,18 +110,38 @@ uint8_t _debounceHandler(void)
     {
         case LPAD_S1:
             P1IE |= BIT1;
+            if(P1IN & ~BIT1)                // low input means still depressed
+            {
+                (*button_s1_handler)();
+            }
+            else
+                ;                           // ignore b/c depression was too fast
             break;
         case LPAD_S2:
             P1IE |= BIT4;
+            if(P1IN & ~BIT4)                // low input means still depressed
+            {
+                (*button_s2_handler)();
+            }
+            else
+                ;                           // ignore b/c depression was too fast
            break;
         case BOOSTER_S1:
             P5IE |= BIT1;
+            if(P5IN & ~BIT1)                // low input means still depressed
+            {
+                (*booster_s1_handler)();
+            }
+            else
+                ;                           // ignore b/c depression was too fast
             break;
         case BOOSTER_S2:
             P3IE |= BIT5;
+            (*booster_s2_handler)();
             break;
         case JOYSTICK_S1:
             P4IE |= BIT1;
+            (*joystick_s1_handler)();
             break;
         default:
             break;
@@ -144,7 +164,6 @@ void Port1Handler(void)
         P1IFG &= ~BIT1;
         buttonIntrpt = LPAD_S1;
         startTimerA(buttonTimer);
-        (*button_s1_handler)();
     }
     else if(P1IFG & BIT4)
     {
@@ -152,7 +171,6 @@ void Port1Handler(void)
         P1IFG &= ~BIT4;
         buttonIntrpt = LPAD_S2;
         startTimerA(buttonTimer);
-        (*button_s2_handler)();
     }
 }
 
@@ -170,7 +188,7 @@ void Port3Handler(void)
         P3IFG &= ~BIT5;
         buttonIntrpt = BOOSTER_S2;
         startTimerA(buttonTimer);
-        (*booster_s2_handler)();
+
     }
 }
 
@@ -188,7 +206,7 @@ void Port4Handler(void)
         P4IFG &= ~BIT1;
         buttonIntrpt = JOYSTICK_S1;
         startTimerA(buttonTimer);
-        (*joystick_s1_handler)();
+
     }
 }
 
@@ -205,7 +223,7 @@ void Port5Handler(void)
         P5IE &= ~BIT1;
         P5IFG &= ~BIT1;
         buttonIntrpt = BOOSTER_S1;
+        buttonTimerInUse = 1;
         startTimerA(buttonTimer);
-        (*booster_s1_handler)();
     }
 }
