@@ -26,8 +26,8 @@ void main(void)
 
 }
 
-// that the powerful play goes on and that you may contribute a verse, what will
-// your verse be
+// that the powerful play goes on and you may contribute a verse
+// What will your verse be
 
 // most men live lives of quiet desperation
 // dare to strike out and find new grounds
