@@ -15,6 +15,8 @@
 #include <stdint.h>
 // a better procedure is to make a buffer with intrpts that publish the letters
 
+// TODO Change these names to uart_send_str and uart_send_char and uart_send_uint32
+
 /* Configures the eUSCI_A module to UART mode */
 void config_uart();
 /* Transmits a single char over UART */
