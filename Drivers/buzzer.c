@@ -5,6 +5,7 @@
  *      Author: luke
  */
 
+#include "Headers/timerA.h"
 #include "Headers/buzzer.h"
 #include "Headers/uart.h"
 #include "msp.h"
@@ -22,17 +23,10 @@
 /* Starts the buzzer */
 void start_buzz()
 {
+    uint8_t timer = setTimerA(ONE_MS, &buzzer_callback);
     transmit_str("Buzzing");
     P2DIR |= BIT7;
-
-    uint64_t i;
-    while(1)
-    {
-        P2OUT |= BIT7;
-        for(i=0; i < 500; i++);
-        P2OUT &= ~BIT7;
-        for(i=0; i < 500; i++);
-    }
+    startTimerA(timer);
 
 
     /* Check if a timer's been set up
@@ -43,14 +37,18 @@ void start_buzz()
 
 }
 
-//uint8_t buzzer_callback()
-//{
-//    // check if count == BUZZER_TIME
-//    // count = 0
-//    //  if true turn off the buzzer and return zero
-//
-//    // otherwise
-//    // otherwise toggle the buzzer with mod3 == buzzer_level
-//    // add one to the count
-//    // return 1
-//}
+uint8_t buzzer_callback()
+{
+
+    P2OUT ^= BIT7;
+    return 1;
+
+    // check if count == BUZZER_TIME
+    // count = 0
+    //  if true turn off the buzzer and return zero
+
+    // otherwise
+    // otherwise toggle the buzzer with mod3 == buzzer_level
+    // add one to the count
+    // return 1
+}

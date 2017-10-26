@@ -22,5 +22,6 @@ static uint8_t buzzer_count = 0;
 static uint8_t buzzer_level = 0;
 
 void start_buzz();
+uint8_t buzzer_callback();
 
 #endif /* DRIVERS_HEADERS_BUZZER_H_ */
