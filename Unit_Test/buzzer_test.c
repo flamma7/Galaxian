@@ -12,5 +12,6 @@
 void Test_Buzzer()
 {
     transmit_str("Testing Buzzer");
-    start_buzz();
+    config_buzzer(BUZZER_BEEP);
+    buzz();
 }

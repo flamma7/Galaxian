@@ -11,44 +11,46 @@
 #include "msp.h"
 #include <stdint.h>
 
-//void config_buzzer(BUZZER_LEVEL lvl)
-//{
-//    // buzz for 30ms therefore low be 1/3
-//    // med will be 2/3
-//    // high will be 3/3
-//}
+void config_buzzer(BUZZER_SEL sel)
+{
+    switch(sel)
+    {
+    case BUZZER_ALARM:
+        transmit_str("Buzzer Alarm selected.");
+        buzzer_timer = setTimerA(TEN_MS, &buzzer_callback);
+        buzzer_count = ALARM_TIME_COUNT;
+        break;
+    default: // BUZZER_BEEP
+        transmit_str("Buzzer Beep selected.");
+        buzzer_timer = setTimerA(ONE_MS, &buzzer_callback);
+        buzzer_count = BEEP_TIME_COUNT;
+        break;
+    }
+}
 
 // p2.7
 
 /* Starts the buzzer */
-void start_buzz()
+void buzz()
 {
-    uint8_t timer = setTimerA(ONE_MS, &buzzer_callback);
+    if(buzzer_count == 0)
+    {
+        transmit_str("buzzer not configured.");
+        return;
+    }
     transmit_str("Buzzing");
     P2DIR |= BIT7;
-    startTimerA(timer);
-
-
-    /* Check if a timer's been set up
-     * If no: get a timerA
-     * Turn on buzzer
-     * turn on the timer A with time of one_ms
-     */
-
+    P2OUT |= BIT7;
+    startTimerA(buzzer_timer);
 }
 
 uint8_t buzzer_callback()
 {
-
+    if(--buzzer_count == 0)
+    {
+        P2OUT &= ~BIT7;
+        return 0;
+    }
     P2OUT ^= BIT7;
     return 1;
-
-    // check if count == BUZZER_TIME
-    // count = 0
-    //  if true turn off the buzzer and return zero
-
-    // otherwise
-    // otherwise toggle the buzzer with mod3 == buzzer_level
-    // add one to the count
-    // return 1
 }
