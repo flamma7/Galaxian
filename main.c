@@ -7,8 +7,9 @@
  * Author: luke
  */
 
-#include "Unit_Test/Headers/blink_test.h"
+//#include "Unit_Test/Headers/blink_test.h"
 #include "Drivers/Headers/uart.h"
+#include "Unit_Test/Headers/buzzer_test.h"
 //#include "Unit_Test/Headers/uart_test.h"
 
 void main(void)
@@ -17,7 +18,8 @@ void main(void)
 	__enable_interrupt();
 	config_uart();
 //	Blink_Tester();
-	Uart_Tester();
+//	Uart_Tester();
+	Test_Buzzer();
 
     while(1)
     {
