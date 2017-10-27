@@ -20,7 +20,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
 
     switch(but)
     {
-    case LPAD_S1:
+    case MSP_S1:
         if(buttons_in_use & LPAD_S1)
             return BUTTON_CONFIG_ERR_IN_USE;
         else
@@ -35,7 +35,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
         NVIC_EnableIRQ(PORT1_IRQn);
 
         break;
-    case LPAD_S2:
+    case MSP_S2:
         if(buttons_in_use & LPAD_S2)
             return BUTTON_CONFIG_ERR_IN_USE;
         else
@@ -108,7 +108,7 @@ uint8_t _debounceHandler(void)
     buttonTimerInUse = 0;
     switch(buttonIntrpt)
     {
-        case LPAD_S1:
+        case MSP_S1:
             P1IE |= BIT1;
             if(P1IN & ~BIT1)                // low input means still depressed
             {
@@ -117,7 +117,7 @@ uint8_t _debounceHandler(void)
             else
                 ;                           // ignore b/c depression was too fast
             break;
-        case LPAD_S2:
+        case MSP_S2:
             P1IE |= BIT4;
             if(P1IN & ~BIT4)                // low input means still depressed
             {
@@ -162,14 +162,14 @@ void Port1Handler(void)
     {
         P1IE &= ~BIT1;
         P1IFG &= ~BIT1;
-        buttonIntrpt = LPAD_S1;
+        buttonIntrpt = MSP_S1;
         startTimerA(buttonTimer);
     }
     else if(P1IFG & BIT4)
     {
         P1IE &= ~BIT4;
         P1IFG &= ~BIT4;
-        buttonIntrpt = LPAD_S2;
+        buttonIntrpt = MSP_S2;
         startTimerA(buttonTimer);
     }
 }

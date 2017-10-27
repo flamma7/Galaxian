@@ -22,8 +22,8 @@ static void (*debouncer)(void);
 static uint8_t buttonTimerInUse = 0;
 
 typedef enum BUTTON_t{
-    LPAD_S1     =   0b00001,
-    LPAD_S2     =   0b00010,
+    MSP_S1     =   0b00001,
+    MSP_S2     =   0b00010,
     BOOSTER_S1  =   0b00100,
     BOOSTER_S2  =   0b01000,
     JOYSTICK_S1 =   0b10000,
