@@ -46,11 +46,11 @@ void buzz()
 
 uint8_t buzzer_callback()
 {
-    if(--buzzer_count == 0)
-    {
-        P2OUT &= ~BIT7;
-        return 0;
-    }
+//    if(--buzzer_count == 0)
+//    {
+//        P2OUT &= ~BIT7;
+//        return 0;
+//    }
     P2OUT ^= BIT7;
     return 1;
 }

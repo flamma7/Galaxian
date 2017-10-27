@@ -49,6 +49,7 @@ void transmit_str(const char * str)
         if(UCA0IFG & UCTXIFG)
             UCA0TXBUF = str[i++];
     }
+    transmit_char('\r');
     transmit_char('\n');
 }
 
