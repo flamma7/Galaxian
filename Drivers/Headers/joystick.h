@@ -27,7 +27,10 @@ void init_joystick();
 
 JOYSTICK_ERR get_joystick(JOYSTICK_DATA_TYPE* x, JOYSTICK_DATA_TYPE* y);
 
+/* Ends adc conversions on the joystick */
 void stop_joystick();
+/* Called after stop_joystick() reenables adc conversions */
+void restart_joystick();
 
 void ADC14_Handler(void);
 

@@ -39,9 +39,15 @@ JOYSTICK_ERR get_joystick(JOYSTICK_DATA_TYPE* x, JOYSTICK_DATA_TYPE* y)
 
 }
 
+
 void stop_joystick()
 {
+    // poll busy bit until reset then clear ADC14ENC
+}
 
+void restart_joystick()
+{
+    // set ADC14ENC
 }
 
 void ADC14_Handler(void)
