@@ -13,3 +13,6 @@ Development: Creating LED and Timer Drivers
 - Button Driver
 - LED Driver
 - TimerA Driver
+- Fifo buffer
+- buzzer Driver
+- uart Driver

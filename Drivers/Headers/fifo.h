@@ -31,7 +31,7 @@ typedef struct fifo_buffer_t
     uint8_t count;
 }fifo_buffer;
 
-/* Initializes and returns a fifo buffer with FIFO_SIZE*/
+/* Initializes and returns a fifo buffer with the given size */
 fifo_buffer* init_fifo(uint8_t size);
 
 /* Adds a new value into the buffer */
@@ -45,9 +45,9 @@ FIFO_DATA_TYPE get_fifo(fifo_buffer* buf);
 void dump_fifo_uart(fifo_buffer* buf);
 
 /* Returns the next index */
-uint8_t next_fifo(uint8_t size, uint8_t cur_index);
+static uint8_t next_fifo(uint8_t size, uint8_t cur_index);
 /* Returns the previous index*/
-uint8_t prev_fifo(uint8_t size, uint8_t cur_index);
+static uint8_t prev_fifo(uint8_t size, uint8_t cur_index);
 
 
 #endif /* DRIVERS_HEADERS_FIFO_H_ */

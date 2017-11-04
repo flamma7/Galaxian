@@ -65,12 +65,12 @@ void dump_fifo_uart(fifo_buffer* buf)
 }
 
 
-uint8_t next_fifo(uint8_t size, uint8_t cur_index)
+static uint8_t next_fifo(uint8_t size, uint8_t cur_index)
 {
     return (cur_index + 1) % size;
 }
 
-uint8_t prev_fifo(uint8_t size, uint8_t cur_index)
+static uint8_t prev_fifo(uint8_t size, uint8_t cur_index)
 {
     if(cur_index == 0)
         return size - 1;
