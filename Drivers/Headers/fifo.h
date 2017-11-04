@@ -4,7 +4,13 @@
  *  Created on: Nov 3, 2017
  *      Author: luke
  *
- *      fifo library that supports only a single fifo on the driver side
+ *      FIFO buffer library, fifo_buffer structure contains
+ *          all important aspects of the buffer
+ *
+ *      For operation:
+ *      1) call init_fifo() and get a buffer
+ *      2) add_fifo(data)
+ *      3) get_fifo(data)
  *
  */
 
@@ -13,24 +19,34 @@
 
 #include <stdint.h>
 
-#define FIFO_SIZE   32
+// Limitation of 1 universal data type for all fifo's
+#define FIFO_DATA_TYPE   uint8_t
 
-static uint8_t * fifo = 0;
-static uint8_t next_index = 0;
-static uint8_t oldest_index = 0;
-static uint8_t count = 0;
+typedef struct fifo_buffer_t
+{
+    uint8_t size;
+    FIFO_DATA_TYPE * buffer;
+    uint8_t next_index;
+    uint8_t oldest_index;
+    uint8_t empty;
+}fifo_buffer;
 
-/* Initializes the fifo buffer with FIFO_SIZE*/
-void init_fifo();
+/* Initializes and returns a fifo buffer with FIFO_SIZE*/
+fifo_buffer* init_fifo(uint8_t size);
 
 /* Adds a new value into the buffer */
-void add_fifo(uint8_t data);
+void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data);
 
 /* Returns the oldest value in the buffer */
-uint8_t get_fifo(void);
+FIFO_DATA_TYPE get_fifo(fifo_buffer* buf);
 
 /* Dumps the fifo outputs oldest -> newest through UART */
 void dump_fifo_uart(void);
+
+/* Returns the next index */
+static uint8_t next_fifo(uint8_t size, uint8_t cur_index);
+/* Returns the previous index*/
+static uint8_t prev_fifo(uint8_t size, uint8_t cur_index);
 
 
 #endif /* DRIVERS_HEADERS_FIFO_H_ */
