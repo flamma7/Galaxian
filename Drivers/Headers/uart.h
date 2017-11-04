@@ -20,7 +20,7 @@
 /* Configures the eUSCI_A module to UART mode */
 void config_uart();
 /* Transmits a single char over UART */
-void transmit_char(const char a);
+void transmit_char(const unsigned char a);
 /* Transmits a string over UART, reads until NULL terminator, adds a newline */
 void transmit_str(const char * str);
 /* Convert an unsigned 32bit number to a string and transmits,

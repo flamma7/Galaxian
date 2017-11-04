@@ -33,7 +33,7 @@ void config_uart()
     UCA0CTLW0 &= ~UCSWRST;
 }
 
-void transmit_char(const char a)
+void transmit_char(const unsigned char a)
 {
     while(!(UCA0IFG & UCTXIFG));
     UCA0TXBUF = a;

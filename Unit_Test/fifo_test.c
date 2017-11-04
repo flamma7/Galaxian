@@ -20,21 +20,22 @@ void Test_Fifo()
 
     // insert data into the buffer
     add_fifo(buf, 'A');
-    transmit_char((unsigned char)get_fifo(buf));
-    transmit_str("Empty buffer?");
-    add_fifo(buf, '1');
-    add_fifo(buf, '2');
-    add_fifo(buf, '3');
-    add_fifo(buf, '4');
-    add_fifo(buf, '5');
-    add_fifo(buf, '6');
-    add_fifo(buf, '7');
-    add_fifo(buf, '8');
-    add_fifo(buf, '9');
-    add_fifo(buf, '0');
-    add_fifo(buf, '1');
-    add_fifo(buf, '2');
-    dump_fifo_uart(buf);
+    uint8_t data = get_fifo(buf);
+    transmit_char(data);
+//    transmit_str("Empty buffer?");
+//    add_fifo(buf, '1');
+//    add_fifo(buf, '2');
+//    add_fifo(buf, '3');
+//    add_fifo(buf, '4');
+//    add_fifo(buf, '5');
+//    add_fifo(buf, '6');
+//    add_fifo(buf, '7');
+//    add_fifo(buf, '8');
+//    add_fifo(buf, '9');
+//    add_fifo(buf, '0');
+//    add_fifo(buf, '1');
+//    add_fifo(buf, '2');
+//    dump_fifo_uart(buf);
 }
 
 

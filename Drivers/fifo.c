@@ -29,7 +29,7 @@ void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data)
     if(buf->count != (buf->size - 1))
         buf->count++;
 
-    if(buf->next_index == buf->oldest_index && buf->count != 0)
+    if(buf->next_index == buf->oldest_index && buf->count == (buf->size - 1))
     {
         buf->oldest_index = next_fifo(buf->size, buf->oldest_index);
     }
