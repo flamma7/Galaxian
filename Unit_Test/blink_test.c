@@ -62,7 +62,7 @@ void testFastBlink()
 
 void testBlink()
 {
-    blinkPushLED1(LPAD_S2);
+    blinkPushLED1(MSP_S2);
 }
 
 void testTimerA()

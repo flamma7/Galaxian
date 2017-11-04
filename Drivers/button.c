@@ -21,10 +21,10 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
     switch(but)
     {
     case MSP_S1:
-        if(buttons_in_use & LPAD_S1)
+        if(buttons_in_use & MSP_S1)
             return BUTTON_CONFIG_ERR_IN_USE;
         else
-            buttons_in_use |= LPAD_S1;
+            buttons_in_use |= MSP_S1;
         P1DIR &= ~BIT1;
         P1IE |= BIT1;
         P1IFG &= ~BIT1;
@@ -36,10 +36,10 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void))
 
         break;
     case MSP_S2:
-        if(buttons_in_use & LPAD_S2)
+        if(buttons_in_use & MSP_S2)
             return BUTTON_CONFIG_ERR_IN_USE;
         else
-            buttons_in_use |= LPAD_S2;
+            buttons_in_use |= MSP_S2;
         P1DIR &= ~BIT4;
         P1IE |= BIT4;
         P1IFG &= ~BIT4;
