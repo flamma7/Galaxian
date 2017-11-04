@@ -12,7 +12,7 @@
 void Test_Fifo()
 {
     transmit_str("Testing FIFO");
-    fifo_buffer* buf = init_fifo(10);
+    fifo_buffer* buf = init_fifo(32);
 
 //    test_next_prev_fifo(buf);
 
@@ -22,20 +22,45 @@ void Test_Fifo()
     add_fifo(buf, 'A');
     uint8_t data = get_fifo(buf);
     transmit_char(data);
-//    transmit_str("Empty buffer?");
-//    add_fifo(buf, '1');
-//    add_fifo(buf, '2');
-//    add_fifo(buf, '3');
-//    add_fifo(buf, '4');
-//    add_fifo(buf, '5');
-//    add_fifo(buf, '6');
-//    add_fifo(buf, '7');
-//    add_fifo(buf, '8');
-//    add_fifo(buf, '9');
-//    add_fifo(buf, '0');
-//    add_fifo(buf, '1');
-//    add_fifo(buf, '2');
-//    dump_fifo_uart(buf);
+    transmit_str("Empty buffer?");
+    add_fifo(buf, '1');
+    add_fifo(buf, '2');
+    add_fifo(buf, '3');
+    add_fifo(buf, '4');
+    data = get_fifo(buf);
+    transmit_char(data);
+    add_fifo(buf, '5');
+    add_fifo(buf, '6');
+    add_fifo(buf, '7');
+    data = get_fifo(buf);
+    transmit_char(data);
+    add_fifo(buf, '8');
+    add_fifo(buf, '9');
+    add_fifo(buf, '0');
+    data = get_fifo(buf);
+    transmit_char(data);
+    add_fifo(buf, '1');
+    add_fifo(buf, '1');
+    add_fifo(buf, '1');
+    add_fifo(buf, '1');
+    transmit_str("Buff Size: ");
+    transmit_num32((uint32_t) buf->size);
+    transmit_str("Buff Count ");
+    transmit_num32((uint32_t) buf->count);
+    dump_fifo_uart(buf);
+    transmit_str("\n\rAfter dump: ");
+    add_fifo(buf, '1');
+    add_fifo(buf, '1');
+    add_fifo(buf, '1');
+    dump_fifo_uart(buf);
+
+    uint8_t j = 0;
+    for(j; j < 44; j++)
+    {
+        add_fifo(buf, 'D');
+    }
+    dump_fifo_uart(buf);
+
 }
 
 

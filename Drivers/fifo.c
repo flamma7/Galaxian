@@ -26,10 +26,10 @@ void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data)
     buf->buffer[buf->next_index] = data;
 
     // only add to the count if the buffer is not full
-    if(buf->count != (buf->size - 1))
+    if(buf->count != buf->size)
         buf->count++;
 
-    if(buf->next_index == buf->oldest_index && buf->count == (buf->size - 1))
+    if(buf->next_index == buf->oldest_index && buf->count == buf->size)
     {
         buf->oldest_index = next_fifo(buf->size, buf->oldest_index);
     }
@@ -43,7 +43,8 @@ FIFO_DATA_TYPE get_fifo(fifo_buffer* buf)
         return 0;
 
     FIFO_DATA_TYPE data = buf->buffer[buf->oldest_index];
-    buf->oldest_index = prev_fifo(buf->size, buf->oldest_index);
+    buf->oldest_index = next_fifo(buf->size, buf->oldest_index);
+    buf->count--;
     return data;
 }
 
@@ -58,7 +59,9 @@ void dump_fifo_uart(fifo_buffer* buf)
         i++;
         old_index = next_fifo(buf->size, old_index);
     }
-    // reset buffer
+    buf->count = 0;
+    buf->next_index = 0;
+    buf->oldest_index = 0;
 }
 
 
