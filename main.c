@@ -7,10 +7,11 @@
  * Author: luke
  */
 
-//#include "Unit_Test/Headers/blink_test.h"
 #include "Drivers/Headers/uart.h"
-#include "Unit_Test/Headers/buzzer_test.h"
+//#include "Unit_Test/Headers/blink_test.h"
+//#include "Unit_Test/Headers/buzzer_test.h"
 //#include "Unit_Test/Headers/uart_test.h"
+#include "Unit_Test/Headers/fifo_test.h"
 
 void main(void)
 {
@@ -19,7 +20,8 @@ void main(void)
 	config_uart();
 //	Blink_Tester();
 //	Uart_Tester();
-	Test_Buzzer();
+//	Test_Buzzer();
+	Test_Fifo();
 
     while(1)
     {

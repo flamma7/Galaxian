@@ -40,13 +40,14 @@ void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data);
 /* Returns the oldest value in the buffer */
 FIFO_DATA_TYPE get_fifo(fifo_buffer* buf);
 
-/* Dumps the fifo outputs oldest -> newest through UART */
+/* Dumps the fifo outputs oldest -> newest through UART
+ * Empties the buffer */
 void dump_fifo_uart(fifo_buffer* buf);
 
 /* Returns the next index */
-static uint8_t next_fifo(uint8_t size, uint8_t cur_index);
+uint8_t next_fifo(uint8_t size, uint8_t cur_index);
 /* Returns the previous index*/
-static uint8_t prev_fifo(uint8_t size, uint8_t cur_index);
+uint8_t prev_fifo(uint8_t size, uint8_t cur_index);
 
 
 #endif /* DRIVERS_HEADERS_FIFO_H_ */

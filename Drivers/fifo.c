@@ -13,7 +13,8 @@
 fifo_buffer* init_fifo(uint8_t size)
 {
     fifo_buffer* buf = (fifo_buffer *)malloc(sizeof(fifo_buffer));
-    buf->buffer = (FIFO_DATA_TYPE *) malloc(sizeof(FIFO_DATA_TYPE) * size);
+    buf->size = size;
+    buf->buffer = (FIFO_DATA_TYPE *) malloc(sizeof(FIFO_DATA_TYPE) * buf->size);
     buf->next_index = 0;
     buf->oldest_index = 0;
     buf->count = 0;
@@ -49,20 +50,24 @@ FIFO_DATA_TYPE get_fifo(fifo_buffer* buf)
 void dump_fifo_uart(fifo_buffer* buf)
 {
     // loop for as many counts
-    uint8_t i;
-    for(i = 0; i != buf->count; i = next_fifo(buf->size, i))
+    uint8_t i = 0;
+    uint8_t old_index = buf->oldest_index;
+    while(i < buf->count)
     {
-
+        transmit_char((char) buf->buffer[old_index]);
+        i++;
+        old_index = next_fifo(buf->size, old_index);
     }
+    // reset buffer
 }
 
 
-static uint8_t next_fifo(uint8_t size, uint8_t cur_index)
+uint8_t next_fifo(uint8_t size, uint8_t cur_index)
 {
     return (cur_index + 1) % size;
 }
 
-static uint8_t prev_fifo(uint8_t size, uint8_t cur_index)
+uint8_t prev_fifo(uint8_t size, uint8_t cur_index)
 {
     if(cur_index == 0)
         return size - 1;
