@@ -36,15 +36,19 @@ void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data)
     buf->next_index = next_fifo(buf->size, buf->next_index);
 }
 
-FIFO_DATA_TYPE get_fifo(fifo_buffer* buf)
+FIFO_DATA_TYPE get_fifo(fifo_buffer* buf, uint8_t* empty)
 {
-    // no warnings thrown here if user gets from empty buffer
+    // warning thrown if buffer is empty
     if(buf->count == 0)
+    {
+        *empty = 1;
         return 0;
+    }
 
     FIFO_DATA_TYPE data = buf->buffer[buf->oldest_index];
     buf->oldest_index = next_fifo(buf->size, buf->oldest_index);
     buf->count--;
+    *empty = 0;
     return data;
 }
 

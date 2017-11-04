@@ -8,6 +8,9 @@
 #include "Headers/fifo_test.h"
 #include "../Drivers/Headers/fifo.h"
 #include "../Drivers/Headers/uart.h"
+#include <assert.h>
+
+//#define FIFO_TEST_NEXT_PREV
 
 void Test_Fifo()
 {
@@ -16,28 +19,34 @@ void Test_Fifo()
 
 //    test_next_prev_fifo(buf);
 
-
+    uint8_t empty = 0;
+    uint8_t data = get_fifo(buf, &empty);
+    assert(empty == 1);
 
     // insert data into the buffer
     add_fifo(buf, 'A');
-    uint8_t data = get_fifo(buf);
+    data = get_fifo(buf, &empty);
+    assert(empty == 0);
     transmit_char(data);
     transmit_str("Empty buffer?");
     add_fifo(buf, '1');
     add_fifo(buf, '2');
     add_fifo(buf, '3');
     add_fifo(buf, '4');
-    data = get_fifo(buf);
+    data = get_fifo(buf, &empty);
+    assert(empty == 0);
     transmit_char(data);
     add_fifo(buf, '5');
     add_fifo(buf, '6');
     add_fifo(buf, '7');
-    data = get_fifo(buf);
+    data = get_fifo(buf, &empty);
+    assert(empty == 0);
     transmit_char(data);
     add_fifo(buf, '8');
     add_fifo(buf, '9');
     add_fifo(buf, '0');
-    data = get_fifo(buf);
+    data = get_fifo(buf, &empty);
+    assert(empty == 0);
     transmit_char(data);
     add_fifo(buf, '1');
     add_fifo(buf, '1');
@@ -63,6 +72,7 @@ void Test_Fifo()
 
 }
 
+#ifdef FIFO_TEST_NEXT_PREV
 
 // Note: next_fifo() and prev_fifo() were not static for this test
 void test_next_prev_fifo(fifo_buffer* buf)
@@ -87,3 +97,4 @@ void test_next_prev_fifo(fifo_buffer* buf)
 
 
 }
+#endif

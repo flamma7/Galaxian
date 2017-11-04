@@ -22,7 +22,7 @@ void main(void)
 //	Blink_Tester();
 //	Uart_Tester();
 //	Test_Buzzer();
-//	Test_Fifo();
+	Test_Fifo();
 
     while(1)
     {

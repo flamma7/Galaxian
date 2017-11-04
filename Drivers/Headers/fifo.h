@@ -37,8 +37,8 @@ fifo_buffer* init_fifo(uint8_t size);
 /* Adds a new value into the buffer */
 void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data);
 
-/* Returns the oldest value in the buffer */
-FIFO_DATA_TYPE get_fifo(fifo_buffer* buf);
+/* Returns the oldest value in the buffer, empty is 1 for empty buffer and 0 for non-empty */
+FIFO_DATA_TYPE get_fifo(fifo_buffer* buf, uint8_t* empty);
 
 /* Dumps the fifo outputs oldest -> newest through UART
  * Empties the buffer */
