@@ -23,7 +23,8 @@ void config_uart();
 void transmit_char(const char a);
 /* Transmits a string over UART, reads until NULL terminator, adds a newline */
 void transmit_str(const char * str);
-/* Convert an unsigned number to string and transmit, cast for smaller numbers */
+/* Convert an unsigned 32bit number to a string and transmits,
+ * cast in the call for smaller numbers */
 void transmit_num32(uint32_t num);
 
 

@@ -16,16 +16,19 @@ fifo_buffer* init_fifo(uint8_t size)
     buf->buffer = (FIFO_DATA_TYPE *) malloc(sizeof(FIFO_DATA_TYPE) * size);
     buf->next_index = 0;
     buf->oldest_index = 0;
-    buf->empty = 1;
+    buf->count = 0;
     return buf;
 }
 
 void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data)
 {
     buf->buffer[buf->next_index] = data;
-    buf->empty = 0;
 
-    if(buf->next_index == buf->oldest_index && buf->empty != 0)
+    // only add to the count if the buffer is not full
+    if(buf->count != (buf->size - 1))
+        buf->count++;
+
+    if(buf->next_index == buf->oldest_index && buf->count != 0)
     {
         buf->oldest_index = next_fifo(buf->size, buf->oldest_index);
     }
@@ -34,9 +37,23 @@ void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data)
 
 FIFO_DATA_TYPE get_fifo(fifo_buffer* buf)
 {
+    // no warnings thrown here if user gets from empty buffer
+    if(buf->count == 0)
+        return 0;
+
     FIFO_DATA_TYPE data = buf->buffer[buf->oldest_index];
     buf->oldest_index = prev_fifo(buf->size, buf->oldest_index);
     return data;
+}
+
+void dump_fifo_uart(fifo_buffer* buf)
+{
+    // loop for as many counts
+    uint8_t i;
+    for(i = 0; i != buf->count; i = next_fifo(buf->size, i))
+    {
+
+    }
 }
 
 

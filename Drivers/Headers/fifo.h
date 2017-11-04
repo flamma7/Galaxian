@@ -28,7 +28,7 @@ typedef struct fifo_buffer_t
     FIFO_DATA_TYPE * buffer;
     uint8_t next_index;
     uint8_t oldest_index;
-    uint8_t empty;
+    uint8_t count;
 }fifo_buffer;
 
 /* Initializes and returns a fifo buffer with FIFO_SIZE*/
@@ -41,7 +41,7 @@ void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data);
 FIFO_DATA_TYPE get_fifo(fifo_buffer* buf);
 
 /* Dumps the fifo outputs oldest -> newest through UART */
-void dump_fifo_uart(void);
+void dump_fifo_uart(fifo_buffer* buf);
 
 /* Returns the next index */
 static uint8_t next_fifo(uint8_t size, uint8_t cur_index);
