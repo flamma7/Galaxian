@@ -57,9 +57,12 @@ void dump_fifo_uart(fifo_buffer* buf)
     // loop for as many counts
     uint8_t i = 0;
     uint8_t old_index = buf->oldest_index;
+    transmit_str("Dumping Buffer:");
     while(i < buf->count)
     {
-        transmit_char((char) buf->buffer[old_index]);
+        transmit_char('-');
+        transmit_char(' ');
+        transmit_num32((uint32_t) buf->buffer[old_index]);
         i++;
         old_index = next_fifo(buf->size, old_index);
     }

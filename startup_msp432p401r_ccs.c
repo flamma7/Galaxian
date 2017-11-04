@@ -44,6 +44,7 @@ extern void TimerA0Handler(void);
 extern void TimerA1Handler(void);
 extern void TimerA2Handler(void);
 extern void TimerA3Handler(void);
+extern void ADC14_Handler(void);
 
 /* Linker variable that marks the top of the stack. */
 extern unsigned long __STACK_END;
@@ -161,7 +162,7 @@ void (* const interruptVectors[])(void) =
     EUSCIB1_IRQHandler,                    /* EUSCIB1 Interrupt         */
     EUSCIB2_IRQHandler,                    /* EUSCIB2 Interrupt         */
     EUSCIB3_IRQHandler,                    /* EUSCIB3 Interrupt         */
-    ADC14_IRQHandler,                      /* ADC14 Interrupt           */
+    ADC14_Handler,                      /* ADC14 Interrupt           */
     T32_INT1_IRQHandler,                   /* T32_INT1 Interrupt        */
     T32_INT2_IRQHandler,                   /* T32_INT2 Interrupt        */
     T32_INTC_IRQHandler,                   /* T32_INTC Interrupt        */

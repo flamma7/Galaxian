@@ -7,7 +7,7 @@
 
 #ifndef DRIVERS_HEADERS_JOYSTICK_H_
 #define DRIVERS_HEADERS_JOYSTICK_H_
-
+#include <stdint.h>
 
 typedef enum JOYSTICK_ERR_t
 {
@@ -18,6 +18,8 @@ typedef enum JOYSTICK_ERR_t
 
 void init_joystick();
 
+JOYSTICK_ERR get_joystick(uint16_t x, uint16_t y);
 
+void ADC14_Handler(void);
 
 #endif /* DRIVERS_HEADERS_JOYSTICK_H_ */

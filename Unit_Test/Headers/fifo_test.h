@@ -12,6 +12,9 @@
 
 void Test_Fifo();
 
+void test_uint16_fifo(fifo_buffer* buf);
+void test_char_fifo(fifo_buffer* buf);
+
 void test_next_prev_fifo(fifo_buffer* buf);
 
 #endif /* UNIT_TEST_HEADERS_FIFO_TEST_H_ */

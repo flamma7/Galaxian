@@ -11,14 +11,45 @@
 #include <assert.h>
 
 //#define FIFO_TEST_NEXT_PREV
+//#define FIFO_TEST_UINT16
+//#define FIFO_TEST_UINT8
 
 void Test_Fifo()
 {
     transmit_str("Testing FIFO");
-    fifo_buffer* buf = init_fifo(32);
+    fifo_buffer* buf = init_fifo(20);
 
-//    test_next_prev_fifo(buf);
+#ifdef FIFO_TEST_NEXT_PREV
+    test_next_prev_fifo(buf);
+#endif
+#ifdef FIFO_TEST_UINT16
+    test_uint16_fifo(buf);
+#endif
+#ifdef FIFO_TEST_UINT8
+    test_char_fifo(buf);
+#endif
+}
 
+
+#ifdef FIFO_TEST_UINT16
+void test_uint16_fifo(fifo_buffer* buf)
+{
+    transmit_str("Testing uint16 FIFO");
+    uint8_t empty = 0;
+    uint16_t data = get_fifo(buf, &empty);
+    add_fifo(buf, 0xFFFF);
+    add_fifo(buf, 0xFFFF);
+    add_fifo(buf, 0xFFFF);
+    add_fifo(buf, 0xFFFF);
+    add_fifo(buf, 0xAAAA);
+    transmit_str("Dumping FIFO");
+    dump_fifo_uart(buf);
+}
+#endif
+
+#ifdef FIFO_TEST_UINT8
+void test_char_fifo(fifo_buffer* buf)
+{
     uint8_t empty = 0;
     uint8_t data = get_fifo(buf, &empty);
     assert(empty == 1);
@@ -27,7 +58,7 @@ void Test_Fifo()
     add_fifo(buf, 'A');
     data = get_fifo(buf, &empty);
     assert(empty == 0);
-    transmit_char(data);
+    transmit_char((uint8_t) data);
     transmit_str("Empty buffer?");
     add_fifo(buf, '1');
     add_fifo(buf, '2');
@@ -35,13 +66,13 @@ void Test_Fifo()
     add_fifo(buf, '4');
     data = get_fifo(buf, &empty);
     assert(empty == 0);
-    transmit_char(data);
+    transmit_char((uint8_t) data);
     add_fifo(buf, '5');
     add_fifo(buf, '6');
     add_fifo(buf, '7');
     data = get_fifo(buf, &empty);
     assert(empty == 0);
-    transmit_char(data);
+    transmit_char((uint8_t) data);
     add_fifo(buf, '8');
     add_fifo(buf, '9');
     add_fifo(buf, '0');
@@ -69,8 +100,8 @@ void Test_Fifo()
         add_fifo(buf, 'D');
     }
     dump_fifo_uart(buf);
-
 }
+#endif
 
 #ifdef FIFO_TEST_NEXT_PREV
 

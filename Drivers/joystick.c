@@ -5,4 +5,12 @@
  *      Author: luke
  */
 
+#include "Headers/joystick.h"
+#include "Headers/fifo.h"
 
+
+
+void ADC14_Handler(void)
+{
+    ;
+}
