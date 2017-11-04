@@ -41,7 +41,7 @@ BUTTON_CONFIG configButton(BUTTON but, void(*handler)(void));
 /* Debounce using timerA */
 uint8_t _debounceHandler(void);
 
-/* Port 1 ISR */
+/* Port ISR's */
 void Port1Handler(void);
 void Port3Handler(void);
 void Port4Handler(void);

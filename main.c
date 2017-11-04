@@ -12,6 +12,7 @@
 #include "Unit_Test/Headers/buzzer_test.h"
 #include "Unit_Test/Headers/uart_test.h"
 #include "Unit_Test/Headers/fifo_test.h"
+#include "Unit_Test/Headers/joystick_test.h"
 
 
 void main(void)
@@ -22,7 +23,8 @@ void main(void)
 //	Blink_Tester();
 //	Uart_Tester();
 //	Test_Buzzer();
-	Test_Fifo();
+//	Test_Fifo();
+	Joystick_Tester();
 
     while(1)
     {

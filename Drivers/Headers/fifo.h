@@ -33,21 +33,25 @@ typedef struct fifo_buffer_t
 
 /* Initializes and returns a fifo buffer with the given size */
 fifo_buffer* init_fifo(uint8_t size);
-
 /* Adds a new value into the buffer */
 void add_fifo(fifo_buffer* buf, FIFO_DATA_TYPE data);
-
 /* Returns the oldest value in the buffer, empty is 1 for empty buffer and 0 for non-empty */
 FIFO_DATA_TYPE get_fifo(fifo_buffer* buf, uint8_t* empty);
-
 /* Dumps the fifo outputs oldest -> newest through UART
  * Empties the buffer */
 void dump_fifo_uart(fifo_buffer* buf);
 
-/* Returns the next index */
+
+
+/* Returns the next index of the given ptr */
 static uint8_t next_fifo(uint8_t size, uint8_t cur_index);
+
+
+// Unused function
+//#define PREV_FIFO
+#ifdef  PREV_FIFO
 /* Returns the previous index*/
 static uint8_t prev_fifo(uint8_t size, uint8_t cur_index);
-
+#endif
 
 #endif /* DRIVERS_HEADERS_FIFO_H_ */

@@ -77,6 +77,8 @@ static uint8_t next_fifo(uint8_t size, uint8_t cur_index)
     return (cur_index + 1) % size;
 }
 
+// Unused function
+#ifdef PREV_FIFO
 static uint8_t prev_fifo(uint8_t size, uint8_t cur_index)
 {
     if(cur_index == 0)
@@ -84,3 +86,4 @@ static uint8_t prev_fifo(uint8_t size, uint8_t cur_index)
     else
         return cur_index - 1;
 }
+#endif

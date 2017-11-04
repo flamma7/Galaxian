@@ -1,5 +1,7 @@
 #ignore following files
 
+notes.txt
+pdfs/
 Debug/
 .launches/
 *.*project
