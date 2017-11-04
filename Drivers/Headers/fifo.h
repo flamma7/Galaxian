@@ -29,5 +29,8 @@ void add_fifo(uint8_t data);
 /* Returns the oldest value in the buffer */
 uint8_t get_fifo(void);
 
+/* Dumps the fifo outputs oldest -> newest through UART */
+void dump_fifo_uart(void);
+
 
 #endif /* DRIVERS_HEADERS_FIFO_H_ */
