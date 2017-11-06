@@ -23,34 +23,37 @@ void init_joystick() // single channel; single conversion
 
     // Set up for 8 bit'll do
     ADC14->CTL0 &= ~ADC14_CTL0_ENC;         // reset
-    ADC14->CTL0 &= ~ADC14_CTL0_SC;
     // SHI bit to trigger first conversion
-    ADC14->CTL0 &= ~ADC14_CTL0_MSC;          // requires rising edge of SHI signal
-    // TODO sample and hold time?
-    ADC14->CTL0 |= ADC14_CTL0_CONSEQ_0;     // just single-channel conversion
+    ADC14->CTL0 |= ADC14_CTL0_MSC;          // requires rising edge of SHI signal each time
+    ADC14->CTL0 |= ADC14_CTL0_SHT0__32;     // 32 clock cycles?
+    ADC14->CTL0 |= ADC14_CTL0_SHT1__32;
+
+    ADC14->CTL0 |= ADC14_CTL0_CONSEQ_2;     // repeat single-channel conversion
     ADC14->CTL0 |= ADC14_CTL0_SSEL__ACLK;   // aclk clock
     ADC14->CTL0 |= ADC14_CTL0_DIV__8;       // clock divider by 8
+    ADC14->CTL0 |= ADC14_CTL0_SHP;
 //     TODO SHS and SHP bits?
-    ADC14->CTL0 |= ADC14_CTL0_PDIV__64;     // predivide clock by 64
+//    ADC14->CTL0 |= ADC14_CTL0_PDIV__64;     // predivide clock by 64
     ADC14->CTL1 |= ADC14_CTL1_RES__8BIT;    // 8 bit resolution
 
     // Thresholds? x2 types? they're fine where they are
     ADC14->MCTL[0] |= ADC14_MCTLN_INCH_9;       // INPUT A9 FOR MEM0
 
-
+    // ADC14CSTARTADDX?
 
     ADC14->IER0 |= ADC14_IER0_IE0;          // Enable intrpt request for ADC14IFG0
     // read ADC14->IFGR0 to tell if intrpt is pending in ADC14MEM0
     // write to ADC14CLRIFGR0 to clear ADC14IG0
 
+    ADC14->CTL0 |= ADC14_CTL0_ON;
     ADC14->CTL0 |= ADC14_CTL0_ENC;         // READY
     ADC14->CTL0 |= ADC14_CTL0_SC;
-    ADC14->CTL0 |= ADC14_CTL0_ON;
-
+    NVIC_EnableIRQ(ADC14_IRQn);
 }
 
 JOYSTICK_ERR get_joystick(JOYSTICK_DATA_TYPE* x, JOYSTICK_DATA_TYPE* y)
 {
+    // read from both buffers
     ;
 }
 
@@ -68,5 +71,7 @@ void restart_joystick()
 
 void ADC14_Handler(void)
 {
+    transmit_str("Entering handler!");// read the register and add to the buffer
+    // flag is cleared automatically
     ;
 }

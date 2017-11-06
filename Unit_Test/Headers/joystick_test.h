@@ -11,5 +11,6 @@
 void Joystick_Tester();
 static void get_pos_joystick_test();
 static void stop_restart_joystick_test();
+static void uart_positions();
 
 #endif /* UNIT_TEST_HEADERS_JOYSTICK_TEST_H_ */
