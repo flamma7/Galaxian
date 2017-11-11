@@ -49,6 +49,10 @@ void init_joystick() // single channel; single conversion
     ADC14->CTL0 |= ADC14_CTL0_ENC;         // READY
     ADC14->CTL0 |= ADC14_CTL0_SC;
     NVIC_EnableIRQ(ADC14_IRQn);
+
+    /* Create and initialize the circular buffer */
+    y_buffer = init_fifo(JOYSTICK_BUFFER_SIZE);
+
 }
 
 JOYSTICK_ERR get_joystick(JOYSTICK_DATA_TYPE* x, JOYSTICK_DATA_TYPE* y)
@@ -71,7 +75,9 @@ void restart_joystick()
 
 void ADC14_Handler(void)
 {
-    transmit_str("Entering handler!");// read the register and add to the buffer
     // flag is cleared automatically
+    uint8_t val = ADC14->MEM[0];
+    transmit_num32((uint32_t) val);
+    add_fifo(y_buffer, val);
     ;
 }

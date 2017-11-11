@@ -14,6 +14,7 @@
 
 //#define STOP_JOYSTICK_TEST
 //#define GET_POS_JOYSTICK_TEST
+//#define UART_POS_JOYSTICK_TEST
 
 void Joystick_Tester()
 {
@@ -22,7 +23,9 @@ void Joystick_Tester()
 //    assert(get_joystick(&x,&y) == JOYSTICK_NO_INIT);
 //    assert(x == 0 && y == 0);
     init_joystick();
+#ifdef UART_POS_JOYSTICK_TEST
     uart_positions();
+#endif
 #ifdef GET_POS_JOYSTICK_TEST
     get_pos_joystick_test();
 #endif

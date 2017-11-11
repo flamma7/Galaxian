@@ -6,14 +6,20 @@
  *      Joystick driver for the boostxl-edumkii boosterpack
  *      For use:
  *      1) call init_joystick()
+ *      Make a circular buffer and store data
  *      2) call get_joystick(&x,&y) and receive data through x,y pointers
+ *      Pulls data from the circular buffer
  */
 
 #ifndef DRIVERS_HEADERS_JOYSTICK_H_
 #define DRIVERS_HEADERS_JOYSTICK_H_
 #include <stdint.h>
+#include "fifo.h"
 
-#define JOYSTICK_DATA_TYPE  uint8_t
+#define JOYSTICK_DATA_TYPE        uint8_t
+#define JOYSTICK_BUFFER_SIZE      40
+
+static fifo_buffer* y_buffer;
 
 typedef enum JOYSTICK_ERR_t
 {
