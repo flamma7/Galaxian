@@ -23,15 +23,15 @@ void config_uart();
 void transmit_char(const unsigned char a);
 /* Transmits a string over UART, reads until NULL terminator, adds a newline */
 void transmit_str(const char * str);
-/* Convert an unsigned 32bit number to a string and transmits,
- * cast in the call for smaller numbers */
+/* Convert an unsigned 32bit number to a string and transmits */
+void transmit_num8(uint8_t num);
 void transmit_num32(uint32_t num);
-
 
 /* Helper functions for setup and conversions */
 static void _config_baud_9600();
-/* Helper function converts 32bit number to string with decimal chars */
+/* Helper function converts 8 or 32 bit number to string with decimal chars */
 static void _uitoa32(uint32_t num, char * str);
+static void _uitoa8(uint32_t num, char * str);
 
 
 // read functions

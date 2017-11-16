@@ -15,6 +15,7 @@
 //#define STOP_JOYSTICK_TEST
 //#define GET_POS_JOYSTICK_TEST
 //#define UART_POS_JOYSTICK_TEST
+#define UART_TEST_MEM0
 
 void Joystick_Tester()
 {
@@ -23,6 +24,9 @@ void Joystick_Tester()
 //    assert(get_joystick(&x,&y) == JOYSTICK_NO_INIT);
 //    assert(x == 0 && y == 0);
     init_joystick();
+#ifdef UART_TEST_MEM0
+    uart_mem0();
+#endif
 #ifdef UART_POS_JOYSTICK_TEST
     uart_positions();
 #endif
@@ -32,6 +36,17 @@ void Joystick_Tester()
 #ifdef STOP_JOYSTICK_TEST
     stop_restart_joystick_test();
 #endif
+}
+
+static void uart_mem0()
+{
+  transmit_str("Uart mem0 test, single channel x dir");
+  uint32_t val;
+  while(1)
+    {
+      val = ADC14->MEM[0];
+      transmit_num32(val);
+    }
 }
 
 static void uart_positions()

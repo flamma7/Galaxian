@@ -6,6 +6,7 @@
  *
  *      FIFO buffer library, fifo_buffer structure contains
  *          all important aspects of the buffer
+ *          Can handle any number of fifo's
  *
  *      For operation:
  *      1) call init_fifo() and get a buffer
@@ -20,7 +21,7 @@
 #include <stdint.h>
 
 // Limitation of 1 universal data type for all fifo's
-#define FIFO_DATA_TYPE   uint8_t
+#define FIFO_DATA_TYPE   uint16_t
 
 typedef struct fifo_buffer_t
 {

@@ -62,6 +62,15 @@ void transmit_num32(uint32_t num)
     free(str);
 }
 
+void transmit_num8(uint8_t num)
+{
+    uint8_t radix = 4;                // max chars in decimal 8 bit (4) + '\0'
+    char * str = (char *) malloc(sizeof(char) * radix);
+    _uitoa8(num, str);
+    transmit_str(str);
+    free(str);
+}
+
 static void _config_baud_9600()
 {
     UCA0CTLW0 |= UCSSEL_2;
@@ -69,6 +78,18 @@ static void _config_baud_9600()
     UCA0BRW |= 19;                      // UCBRx
     UCA0MCTLW |= 0xAA00;                // UCBRSx
     UCA0MCTLW |= 0x80;                  // UCBRFx
+}
+
+static void _uitoa8(uint32_t num, char * str)
+{
+    str[2] = (num % 10) + ASCII_ZERO;
+    int8_t i;
+    for(i = 1; i > -1; i--)
+    {
+        num = num / 10;
+        str[i] = (num % 10) + ASCII_ZERO;
+    }
+    str[3] = '\0';
 }
 
 // assumes str has radix of >= 11
